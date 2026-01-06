@@ -1,0 +1,17 @@
+import { HttpEvent, HttpEventType, HttpHandlerFn, HttpRequest } from "@angular/common/http";
+import { Observable, tap } from "rxjs";
+
+
+//revisa la url y el estado de la respuesta
+export function loggingInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,                          //se llama en otro lado para que se ejecute un middleware y corto
+): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(
+    tap((event) => {
+      if (event.type === HttpEventType.Response) {
+        console.log(req.url, 'returned a response with status', event.status);
+      }
+    }),
+  );
+}

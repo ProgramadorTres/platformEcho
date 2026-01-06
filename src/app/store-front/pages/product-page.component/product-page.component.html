@@ -1,0 +1,65 @@
+@if (loading()) {
+<div class="text-center p-4">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+</div>
+}
+
+@if (errorType()) {
+<div class="alert alert-danger">
+  @switch (errorType()) {
+    @case ('API_DOWN') {
+      <div>
+        <strong>API no disponible</strong>
+        <p class="mb-0 mt-2">No podemos conectar con el servidor. Verifica tu conexión o intenta más tarde.</p>
+      </div>
+    }
+    @case ('SERVER_ERROR') {
+      <div>
+        <strong>Error del servidor</strong>
+        <p class="mb-0 mt-2">El servidor está experimentando problemas. Por favor, intente más tarde.</p>
+      </div>
+    }
+    @case ('NOT_FOUND') {
+      <div>
+        <strong>Producto no encontrado</strong>
+        <p class="mb-0 mt-2">El producto que buscas no existe o ha sido removido.</p>
+      </div>
+    }
+    @case ('UNAUTHORIZED') {
+      <div>
+        <strong>No autorizado</strong>
+        <p class="mb-0 mt-2">No tienes permisos para ver este producto.</p>
+      </div>
+    }
+    @default {
+      <div>
+        <strong>Error inesperado</strong>
+        <p class="mb-0 mt-2">{{ errorMessage() }}</p>
+      </div>
+    }
+  }
+</div>
+}
+
+@if (product() && !loading() && !errorType()) {
+  <div class="row g-3 mt-4">
+    <!-- Imágenes -->
+     <div class="col-6 col-sm-6">
+        <product-carrusel  [images]="product()?.images  ?? []" ></product-carrusel>
+     </div>
+
+
+    <!-- Información del producto -->
+    <div class="col-6 col-sm-6">
+        <h2 class="h2 fw-bold">
+            {{ product()?.title }}
+        </h2>
+        <hr class="my-3">
+        <p>
+            {{ product()?.description }}
+        </p>
+    </div>
+</div>
+}

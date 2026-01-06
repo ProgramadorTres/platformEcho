@@ -1,0 +1,25 @@
+<nav aria-label="Paginación de ejemplo" class="d-flex justify-content-center "> <!--mt-4-->
+    <ul class="pagination">
+
+
+        @for ( page of getPAgeList();track page ) {
+        <li class="page-item" 
+            [class.active]="page === activePAge()" 
+            aria-current="page">
+            
+            <button class="page-link" 
+                [routerLink]="[]" 
+                [queryParams]="{page:page}" 
+                (click)="activePAge.set(page)"> 
+                {{ page }} 
+            </button>
+        </li>
+        } @empty {
+        <div class="alert alert-warning" role="alert">
+            No hay registros!
+        </div>
+        }
+
+
+    </ul>
+</nav>

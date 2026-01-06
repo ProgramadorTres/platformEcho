@@ -1,0 +1,116 @@
+<h1 class="h2 fw-bold">{{ product().title }}</h1>
+<hr />
+
+<form class="row g-4" [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <!-- Datos generales -->
+  <div class="col-12 col-sm-6 d-flex flex-column gap-2">
+    <h2 class="h4 fw-bold mb-3">Datos generales</h2>
+
+    <input type="text" placeholder="Título" class="form-control border" 
+    formControlName="title" [class.border-danger]="productForm.get('title')?.errors ?? false"/>
+    
+    <form-error-label [control]="productForm.get('title')!"/>
+
+    <input type="text" placeholder="Slug" class="form-control" 
+    formControlName="slug"  [class.border-danger]="productForm.get('slug')?.errors ?? false"/>
+    <form-error-label [control]="productForm.get('slug')!"/>
+    
+    <textarea class="form-control" placeholder="Descripción" rows="6" 
+    formControlName="description" [class.border-danger]="productForm.get('description')?.errors ?? false"></textarea>
+    <form-error-label [control]="productForm.get('description')!"/>
+
+    <h2 class="h6 fw-bold mt-3">Datos de venta</h2>
+
+    <div class="row g-2">
+      <div class="col-12 col-sm-6">
+        <input type="number" placeholder="Precio" class="form-control" 
+        formControlName="price" [class.border-danger]="productForm.get('price')?.errors ?? false"/>
+         <form-error-label [control]="productForm.get('price')!"/>
+      </div>
+      <div class="col-12 col-sm-6">
+        <input type="number" placeholder="Inventario" class="form-control"  
+        formControlName="stock" [class.border-danger]="productForm.get('stock')?.errors ?? false"/>
+        <form-error-label [control]="productForm.get('stock')!"/>
+      </div>
+    </div>
+
+    <!-- tags -->
+    <input type="text" placeholder="Tags" class="form-control"  formControlName="tags" />
+
+    <!-- Botones para el género -->
+    <div class="row g-2">
+      <div class="col">
+        <button class="btn btn-sm w-100" 
+        type="button"
+        [class.btn-primary]="productForm.value.gender ==='men' "
+        (click)="productForm.patchValue({gender:'men'})"
+        >
+          Masculino
+        </button>
+      </div>
+      <div class="col">
+        <button class="btn  btn-sm w-100" 
+        type="button"
+          [class.btn-info]="productForm.value.gender ==='women' "
+          (click)="productForm.patchValue({gender:'women'})"
+        >
+        Femenino
+        </button>
+      </div>
+      <div class="col">
+        <button class="btn  btn-sm w-100" 
+        type="button"
+          [class.btn-secondary]="productForm.value.gender ==='unisex' "
+          (click)="productForm.patchValue({gender:'unisex'})"
+        >
+        Unisex
+      </button>
+      </div>
+      <div class="col">
+        <button class="btn  btn-sm w-100" 
+        type="button"
+          [class.btn-warning]="productForm.value.gender ==='kid' "
+          (click)="productForm.patchValue({gender:'kid'})"
+        >
+        Kid
+      </button>
+      </div>
+    </div>
+
+    <!-- Sizes -->
+    <div class="row g-2">
+      @for (size of sizes; track size) {
+      <div class="col-2">
+        <button class="btn btn-sm w-100" 
+         type="button" 
+         (click)="onSizeClicked(size)" 
+         [class.btn-outline-secondary]="productForm.value.sizes?.includes(size)"
+         >{{ size }}</button>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Imágenes -->
+  <div class="col-12 col-sm-6 d-flex flex-column gap-2">
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-secondary" type="submit">
+        Guardar
+      </button>
+    </div>
+
+    <product-carrusel [images]="product().images"></product-carrusel>
+
+
+    <input type="file" class="form-control mt-4" />
+  </div>
+  
+@if(wasSaved()) {
+  <div class="alert alert-success position-fixed bottom-0 end-0 m-4 fade show" style="width: 20rem;">
+    <span>Datos actualizados correctamente</span>
+  </div>
+}
+
+
+</form>
+

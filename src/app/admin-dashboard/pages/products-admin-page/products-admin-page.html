@@ -1,0 +1,40 @@
+<h1 class="fs-2 fw-bold">Listado de productos</h1>
+<h3 class="fs-5">
+  Total de productos
+  <span class="text-primary">{{ productsResource.value()?.count ?? 0 }}</span>
+</h3>
+<div class="my-2"></div>
+
+<div class="d-flex align-items-center gap-2 w-100">
+  <app-pagination 
+    [pages]="productsResource.value()?.pages ?? 0" 
+    [currentPage]="paginationService.currentPage()" 
+  />
+
+  <div class="d-flex align-items-center">
+    <select   
+      (change)="productsPerPage.set(+selectPerPage.value)"
+      #selectPerPage 
+      class="form-select form-select-sm w-auto"  
+      style="min-width: 5rem; margin-top: -16px; height: 2.25rem;">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+
+  <!-- Botón alineado al borde derecho -->
+  <button  
+    routerLink="/admin/products/new"
+    class="btn btn-primary ms-auto d-flex align-items-center gap-1" 
+    style="min-width: 5rem; margin-top: -16px; height: 2.25rem;">
+   <i class="bi bi-plus-circle"></i>
+    Nuevo producto
+  </button>
+</div>
+
+
+
+
+<product-table [products]="productsResource.value()?.products ?? []" />

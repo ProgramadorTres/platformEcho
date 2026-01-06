@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h1 class="h4 text-center mb-4">Autenticación</h1>
+
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" placeholder="tu@correo.com"
+                                formControlName="email" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" formControlName="password" />
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" >Login</button>
+                        </div>
+
+                        @if(hasError()) {
+                        <div class="alert alert-danger mt-2" role="alert">
+                            Por favor revise la informacion ingresada.
+                        </div>
+                        }
+
+
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            ¿No tienes cuenta?
+                            <a routerLink="/auth/registro" class="link-primary">Crea una aquí</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opcional: aviso pequeño debajo -->
+            <p class="text-center text-muted mt-3 mb-0">
+                © Heco app— 2025
+            </p>
+        </div>
+    </div>
+</div>

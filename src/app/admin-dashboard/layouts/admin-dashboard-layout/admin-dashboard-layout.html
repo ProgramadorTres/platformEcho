@@ -1,0 +1,77 @@
+<div class="bg-light text-secondary vh-100 vw-100 overflow-auto">
+  <div class="d-flex position-relative vw-100">
+
+    <!-- Sidebar -->
+    <div id="menu" class="bg-dark text-light position-fixed start-0 top-0 vh-100 overflow-auto"
+      style="width: 16rem; z-index: 10;">
+
+      <!-- Logo -->
+      <div id="logo" class="my-4 px-3">
+        <h1 class="fs-4 fw-bold text-white " style="cursor: pointer;" routerLink="/">
+          Echo <span class="text-primary">| Fpn</span>
+        </h1>
+        <p class="text-muted small">Manage your actions and activities</p>
+      </div>
+
+      <!-- Profile -->
+      <div id="profile" class="px-3 py-4">
+        <p class="text-muted mb-2">Bienvenido,</p>
+        <a href="#" class="d-inline-flex align-items-center gap-2 text-decoration-none">
+          <span>
+            <img class="rounded-circle" style="width: 32px; height: 32px;"
+              src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&q=80"
+              alt="">
+          </span>
+          <span class="fw-bold small">{{ user()?.fullName }}</span>
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <div id="nav" class="w-100 px-3">
+
+        <!-- Dashboard -->
+        <a routerLink="/admin/dashboard" routerLinkActive="active bg-primary text-white"
+          class="w-100 px-2 d-flex align-items-center gap-2 border-bottom border-secondary py-3 text-decoration-none text-light">
+          <div>
+            <i class="bi bi-speedometer2 fs-4"></i>
+          </div>
+
+          <div class="d-flex flex-column">
+            <span class="fw-bold">Dashboard</span>
+            <span class="small text-white-50 d-none d-md-block">Listado</span>
+          </div>
+        </a>
+
+        <!-- Productos -->
+        <a routerLink="/admin/products" routerLinkActive="active bg-primary text-white"
+          class="w-100 px-2 d-flex align-items-center gap-2 border-bottom border-secondary py-3 text-decoration-none text-light">
+          <div>
+            <i class="bi bi-bag-fill fs-4"></i>
+          </div>
+          <div class="d-flex flex-column">
+            <span class="fw-bold">Productos</span>
+            <span class="small text-white-50 d-none d-md-block">Listado de productos</span>
+          </div>
+        </a>
+
+
+
+
+        <!-- menu item end-->
+        <div class=" my-2">
+
+        </div>
+
+        <button class="btn btn-outline-secondary text-primary w-100" (click)="authService.logout()">
+          Cerrar sesion
+        </button>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-grow-1 pt-3 px-3" style="margin-left: 16rem;">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>

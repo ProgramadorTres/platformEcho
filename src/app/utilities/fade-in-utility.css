@@ -1,0 +1,41 @@
+
+/*
+  ===================================================================
+  ANIMACIÓN KEYFRAMES
+  Define el inicio (0%) y el fin (100%) del efecto de desvanecimiento.
+  ===================================================================
+*/
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    /* Opcional: añade un ligero movimiento vertical para un efecto más suave */
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*
+  ===================================================================
+  CLASE DE UTILIDAD (LA QUE USARÁS EN TU HTML)
+  Esta clase aplica la animación 'fadeIn' a cualquier elemento.
+  ===================================================================
+*/
+.fade-in {
+  /* Inicialmente invisible para que la animación haga el trabajo */
+  opacity: 0;
+
+  /* Nombre de la animación que definimos arriba */
+  animation-name: fadeIn;
+
+  /* Duración de la animación (0.3s, como en tu ejemplo) */
+  animation-duration: 0.3s;
+
+  /* Curva de aceleración (como en tu ejemplo) */
+  animation-timing-function: ease-in-out;
+
+  /* Asegura que el elemento mantenga el estado final (opacity: 1) */
+  animation-fill-mode: forwards;
+}

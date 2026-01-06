@@ -1,0 +1,70 @@
+<div class="table-responsive">
+    <table class="table align-middle">
+        <!-- head -->
+        <thead class="table-light">
+            <tr>
+                <th scope="col">
+                    <input type="checkbox" class="form-check-input" />
+                </th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Inventario</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- row 1 -->
+            @for(product of products();track product.id) {
+            <tr>
+                <td>
+                    <input type="checkbox" class="form-check-input" />
+                </td>
+                <td>
+                    <div class="d-flex align-items-center gap-3">
+                        <img [src]="product.images | productImage" [alt]="product.title" class="rounded-circle"
+                            width="48" height="48" />
+                        <div>
+                            <a
+                             [routerLink]="['/admin/products',product.id]" 
+                             class="fw-bold">{{ product.title }}
+                            </a>
+                            <div class="text-muted small"> {{ product.sizes.join(", ") }} </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    {{product.price | currency }}
+
+                </td>
+                <td>
+                    @if(product.stock <= 10) { <span class="badge bg-danger">{{ product.stock }}</span>
+                        }
+                        <!---->
+                        @else if ((product.stock <= 20) ){ <span class="badge bg-warning text-dark">{{ product.stock
+                            }}</span>
+                            }
+                            <!---->
+                            @else {
+                            <span class="badge bg-primary">{{ product.stock }}</span>
+                            }
+                </td>
+                <td>
+                    <a class="btn btn-outline-secondary text-primary border-start border-end border-1 border-opacity-25"
+                        [routerLink]="['/admin/products',product.id]"> Detalles</a>
+                </td>
+            </tr>
+
+            }
+        </tbody>
+        <!-- foot 
+    <tfoot class="table-light">
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Favorite Color</th>
+        <th></th>
+      </tr>
+    </tfoot>-->
+    </table>
+</div>

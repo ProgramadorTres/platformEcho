@@ -1,0 +1,8 @@
+<div class="card h-100"  >
+   <img  [src]="  product().images | productImage" class="card-img-top" alt="product().title">
+   <div class="card-body">
+      <h5 [routerLink]="['/product',   product().slug]"  class="card-title link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover"> {{ product().title }}  </h5>
+      <p class="card-text"> {{ product().description | slice : 0 :70}}...  </p>
+      <a  [routerLink]="['/product',   product().slug]"  class="text-info text-decoration-none">Comprar</a>
+   </div>
+</div>
