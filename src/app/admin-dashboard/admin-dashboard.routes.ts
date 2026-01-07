@@ -15,7 +15,7 @@ export const adminDashboardRoutes: Routes =[
                 path: 'products',
                 component: ProductsAdminPage
             },
-                 {
+            {
                 path: 'products/:id',
                 component: ProductAdminPage
             },

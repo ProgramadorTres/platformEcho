@@ -33,8 +33,6 @@
     Nuevo producto
   </button>
 </div>
+<product-search (search)="onSearch($event)" />
 
-
-
-
-<product-table [products]="productsResource.value()?.products ?? []" />
+<product-table [products]="filteredProducts()" />

@@ -13,5 +13,5 @@ import { PaginationService } from '@shared/components/pagination-component/pagin
 export class ProductTable { 
   products = input.required<Product[]>();
   paginationService = inject(PaginationService);
-isHovered: any;
+  isHovered: any;
 }

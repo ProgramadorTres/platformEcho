@@ -1,27 +1,35 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ProductTable } from "@products/components/product-table/product-table";
 import { ProductsSErvice } from '@products/services/products.services';
 import { PaginationService } from '@shared/components/pagination-component/pagination.service';
 import { PaginationComponentComponent } from "@shared/components/pagination-component/pagination-component.component";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { ProductSearch } from "@products/components/product-search/product-search";
+import { Product } from '@products/interfaces/product.interface';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-products-admin-page',
-  imports: [ProductTable, PaginationComponentComponent, RouterLink],
+  imports: [ProductTable, PaginationComponentComponent, RouterLink, ProductSearch],
   templateUrl: './products-admin-page.html',
 })
 export class ProductsAdminPage {
 
-  productsService =   inject(ProductsSErvice);
+  productsService = inject(ProductsSErvice);
   paginationService = inject(PaginationService);
-  productsPerPage =   signal(10);
+  productsPerPage = signal(10);
 
+  searchTerm = signal('');
+  allProducts = signal<Product[]>([]); // acumulador global
+router = inject(Router); // Inyecta el Router
+  //traiga y pagine
 
-//traiga y pagine
+  /*
   productsResource = rxResource({
-    request: () => ({ page: this.paginationService.currentPage() - 1 ,
-      limit : this.productsPerPage()
+    request: () => ({
+      page: this.paginationService.currentPage() - 1,
+      limit: this.productsPerPage()
     }),
     loader: ({ request }) => {
       return this.productsService.getProducts({
@@ -29,12 +37,59 @@ export class ProductsAdminPage {
         limit: this.productsPerPage()
       });
     },
+  });*/
+
+
+  // lista filtrada
+  //filteredProducts = signal<any[]>([]);
+
+
+
+
+  // El recurso se dispara cada vez que cambie: page, limit o searchTerm
+  productsResource = rxResource({
+    request: () => ({
+      page: this.paginationService.currentPage() - 1,
+      limit: this.productsPerPage(),
+      term: this.searchTerm()
+    }),
+    loader: ({ request }) => {
+      return this.productsService.getProducts({
+        offset: request.page * request.limit,
+        limit: request.limit,
+        search: request.term // Enviamos el término al backend
+      });
+    },
   });
 
+  // La tabla simplemente muestra lo que el recurso trae del server
+  filteredProducts = computed(() => this.productsResource.value()?.products ?? []);
+/*
+  onSearch(term: string) {
+    this.searchTerm.set(term);
+    // IMPORTANTE: Al buscar, reseteamos a la página 1 
+    this.paginationService.currentPage.set(1);
+  }
+*/
 
-  pagesNumber(pages:number) {
-    console.log(`Cambiando a ${pages} - ${ this.productsPerPage()}`);
-    
+
+onSearch(term: string) {
+  // 1. Seteamos el término (vacío o con texto)
+  const cleanTerm = term ? term.trim() : '';
+  this.searchTerm.set(cleanTerm);
+
+  // 2. Forzamos que la URL vuelva a la página 1
+  // Esto es vital porque si estabas en la página 5 y limpias el buscador,
+  // quieres ver la página 1 de todos los productos.
+  this.router.navigate([], {
+    queryParams: { page: 1 },
+    queryParamsHandling: 'merge'
+  });
+}
+
+  pagesNumber(pages: number) {
+    // console.log(`Cambiando a ${pages} - ${ this.productsPerPage()}`);
+
     this.productsPerPage.set(pages);
   }
 

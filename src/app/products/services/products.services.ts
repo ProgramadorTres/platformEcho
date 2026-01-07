@@ -11,6 +11,7 @@ interface Options {
   limit?: number;
   offset?: number;
   gender?: string;
+  search?: string;
 }
 
 
@@ -55,20 +56,25 @@ export class ProductsSErvice {
 
   getProducts(options: Options): Observable<ProductsResponse> { // ⬅️ CORRECCIÓN AQUÍ
     //
-    const { limit = 10, offset = 0, gender = '' } = options;
+    const { limit = 10, offset = 0, gender = '',search = '' } = options;
     //console.log("GEnder ", gender);
     //almacenar paginacion en cache 
-
+    //const key = `${limit}-${offset}-${gender}-${search} || 'all' `;
+    const key = `${limit}-${offset}-${gender}-${search || 'all'}`;
     console.log(this.productsCache.entries());
 
 
-    const key = `${limit}-${offset}-${gender}`;  //concatenmado creo una llave
+
     if (this.productsCache.has(key)) {
       return of(this.productsCache.get(key)!);
     }
 
+    // 2. Construimos los parámetros dinámicamente
+    const params: any = { limit, offset };
+    if (gender) params.gender = gender;
+    if (search) params.search = search;
 
-
+    /*
     return this.http.get<ProductsResponse>(`${baseUrl}/products`, {
       params: {
         limit,
@@ -78,7 +84,15 @@ export class ProductsSErvice {
     }).pipe(
       tap((resp) => console.log(resp)),
       tap((resp) => this.productsCache.set(key, resp))
-    )
+    )*/
+   return this.http.get<ProductsResponse>(`${baseUrl}/products`, { params })
+    .pipe(
+      tap((resp) => {
+        // Solo guardamos en cache si NO es una búsqueda muy específica 
+        // o guárdalo siempre, pero con la llave que incluye 'search'
+        this.productsCache.set(key, resp);
+      })
+    );
   }
 
   getProdyctByIdSlug(idSlug: string): Observable<Product> {
