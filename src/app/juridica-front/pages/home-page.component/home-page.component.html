@@ -1,0 +1,64 @@
+<div class="col-12 col-sm-6 col-md-4 col-lg-3  text-center">
+    <h1>Todos los Contratistas</h1>
+</div>
+
+<app-pagination [pages]="contractorsResource.value()?.pages ?? 0" [currentPage]="paginationService.currentPage()">
+</app-pagination>
+
+
+<div class="container fade-in">
+    <div class="row g-4">
+        @for(contractor of contractorsResource.value()?.contratistas; track contractor.id_contratista) {
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 ">
+            <contratistas [contratista]="contractor"> </contratistas>
+        </div>
+        } @empty {
+        @if (!contractorsResource.isLoading()) {
+        <div class="alert alert-warning">No se encontraron contratistas en la lista.</div>
+        }
+        }
+
+    </div>
+<!---->
+
+<div class="container fade-in">
+    <div class="row g-4 mt-3">
+        <div class="table-responsive jungle-table-wrapper">
+            <table class="jungle-table">
+                <thead>
+                    <tr>
+                        <th>Nombre / Razón Social</th>
+                        <th>Identificación</th>
+                        <th>Tipo</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (c of contractorsResource.value()?.contratistas; track c.id_contratista) {
+                    <tr>
+                        <td class="fw-bold" style="color: var(--deep-jungle);">{{ c.nombre }}</td>
+                        <td>
+                            {{ c.cedula_nit }}
+                            @if (c.DV !== null) { - {{ c.DV }} }
+                        </td>
+                        <td>
+                            <span class="chip-loro">{{ c.tipo_persona }}</span>
+                        </td>
+                        <td>{{ c.telefono || 'N/A' }}</td>
+                        <td>{{ c.email || 'Sin correo' }}</td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <span style="color: var(--bark-brown); font-style: italic;">
+                                🌿 No se encontraron contratistas en esta zona de la selva.
+                            </span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

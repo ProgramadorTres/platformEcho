@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthenticatedGuard } from '@auth/guards/autheticated.guard';
 import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
 
 export const routes: Routes = [
@@ -16,7 +17,9 @@ export const routes: Routes = [
   },
   {
     path:'admin',
-    loadChildren: ()=> import('./admin-dashboard/admin-dashboard.routes')
+    loadChildren: ()=> import('./admin-dashboard/admin-dashboard.routes'),
+     canMatch: [AuthenticatedGuard] // solo si SÍ está autenticado
+
   },
 
   {
