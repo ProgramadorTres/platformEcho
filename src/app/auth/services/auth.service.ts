@@ -56,9 +56,13 @@ export class AuthService {
             password: password
         }).pipe(
             //tap efectos secundarios
-            map(resp =>
-                this.handleAuthSuccess(resp)),
+             tap(resp => console.log('Respuesta del login:', resp)),
 
+            map(resp =>
+                this.handleAuthSuccess(resp)
+            
+            ),
+                
             catchError((error: any) => this.HandleAuthError(error))
         );
     }

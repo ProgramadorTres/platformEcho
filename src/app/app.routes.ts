@@ -16,14 +16,18 @@ export const routes: Routes = [
     ]
   },
   {
-    path:'admin',
-    loadChildren: ()=> import('./admin-dashboard/admin-dashboard.routes'),
-     canMatch: [AuthenticatedGuard] // solo si SÍ está autenticado
-
+    path: 'admin',
+    canMatch: [AuthenticatedGuard], // Si el token expiró, lo manda al login.
+    loadChildren: () => import('./admin-dashboard/admin-dashboard.routes')
   },
 
   {
     path: '',
+    canMatch: [AuthenticatedGuard], // Si el token expiró, lo manda al login.
     loadChildren: () => import('./store-front/store-front.routes')
+  },
+  {
+    path: '**',
+    redirectTo: 'auth'
   }
 ];

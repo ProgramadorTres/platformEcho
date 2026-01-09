@@ -37,7 +37,10 @@ export class ContratistaService {
     }
 
 
-    getProducts(options: Options): Observable<ContratistasResponse> { // ⬅️ CORRECCIÓN AQUÍ
+    getProducts(options: Options): Observable<ContratistasResponse> {
+      
+      //console.log("SE disparo!");
+      // ⬅️ CORRECCIÓN AQUÍ
     //
     const { limit = 10, offset = 0 } = options;
    

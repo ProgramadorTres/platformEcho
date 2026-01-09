@@ -1,25 +1,36 @@
-<nav aria-label="Paginación de ejemplo" class="d-flex justify-content-center "> <!--mt-4-->
-    <ul class="pagination">
+<nav aria-label="Paginación" class="d-flex ">
+  <ul class="pagination jungle-pagination">
 
+    @if (activePAge() > 3) {
+      <li class="page-item">
+        <button class="page-link" [routerLink]="[]" [queryParams]="{ page: 1 }" (click)="activePAge.set(1)">1</button>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link border-0 bg-transparent">...</span>
+      </li>
+    }
 
-        @for ( page of getPAgeList();track page ) {
-        <li class="page-item" 
-            [class.active]="page === activePAge()" 
-            aria-current="page">
-            
-            <button class="page-link" 
+    @for (page of getPAgeList(); track page) {
+      <li class="page-item" [class.active]="page === activePAge()">
+        <button class="page-link" 
                 [routerLink]="[]" 
-                [queryParams]="{page:page}" 
-                (click)="activePAge.set(page)"> 
-                {{ page }} 
-            </button>
-        </li>
-        } @empty {
-        <div class="alert alert-warning" role="alert">
-            No hay registros!
-        </div>
-        }
+                [queryParams]="{ page: page }" 
+                (click)="activePAge.set(page)">
+          {{ page }}
+        </button>
+      </li>
+    }
 
+    @if (activePAge() < pages() - 2) {
+      <li class="page-item disabled">
+        <span class="page-link border-0 bg-transparent">...</span>
+      </li>
+      <li class="page-item">
+        <button class="page-link" [routerLink]="[]" [queryParams]="{ page: pages() }" (click)="activePAge.set(pages())">
+          {{ pages() }}
+        </button>
+      </li>
+    }
 
-    </ul>
+  </ul>
 </nav>

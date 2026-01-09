@@ -5,7 +5,6 @@
 <app-pagination [pages]="contractorsResource.value()?.pages ?? 0" [currentPage]="paginationService.currentPage()">
 </app-pagination>
 
-
 <div class="container fade-in">
     <div class="row g-4">
         @for(contractor of contractorsResource.value()?.contratistas; track contractor.id_contratista) {

@@ -22,7 +22,7 @@ export class ProductsAdminPage {
 
   searchTerm = signal('');
   allProducts = signal<Product[]>([]); // acumulador global
-router = inject(Router); // Inyecta el Router
+  router = inject(Router); // Inyecta el Router
   //traiga y pagine
 
   /*

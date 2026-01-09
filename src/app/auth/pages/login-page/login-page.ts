@@ -38,17 +38,27 @@ export class LoginPageComponent {
 
     //console.log({ email, password });
 
-    this.AuthService.login(email!, password!).subscribe((isAuthenticated) => {
-      if (isAuthenticated){
-        this.router.navigateByUrl('/');
-        return ;
-      }
+this.AuthService.login(email!, password!).subscribe((isAuthenticated) => {
+  
+  if (isAuthenticated) {
+    // 1. Si los datos son correctos, decidimos a dónde va según el rol
+    if (this.AuthService.isAdmin()) {
+      // Caso Camila (admin)
+      this.router.navigateByUrl('/admin/contratistas');
+    } else {
+      // Caso Javier (user corriente)
+      this.router.navigateByUrl('/');
+    }
+  } else {
+    // 2. Si el login falla (isAuthenticated es false)
+    this.hasError.set(true);
+    setTimeout(() => {
+      this.hasError.set(false);
+    }, 2500);
+  }
 
-      this.hasError.set(true);
-      setTimeout(() => {
-        this.hasError.set(false);
-      }, 2500);
-    });
+});
+    
   }
 
 }

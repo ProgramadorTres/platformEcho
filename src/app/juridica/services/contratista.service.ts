@@ -11,93 +11,59 @@ const baseUrl = environment.baseUrl;
 interface Options {
   limit?: number;
   offset?: number;
-
+  search?: string;
 }
 
 
 @Injectable({ providedIn: 'root' })
 
 export class ContratistaService {
-    private http = inject(HttpClient);
+  private http = inject(HttpClient);
 
-    // Servicio para traer todos los contratistas SIN opciones
-    getAllContratistas(): Observable<Contratista[]> {
-        return this.http.get<Contratista[]>(`${baseUrl}/contratistas`).pipe(
-           // tap(resp => console.log('Contratistas recibidos:', resp))
-        );
-    }
-
-    getAllTiposDocumentos(): Observable<TipoDocumento[]> {
-        return this.http.get<TipoDocumento[]>(`${baseUrl}/tipos-identificaciones`).pipe(
-            tap(resp => console.log('tipos-identificaciones recibidos:', resp))
-        );
-    }
-
-/*
-    getContractors(options: Options): Observable<ContratistasResponse> { // ⬅️ CORRECCIÓN AQUÍ
-    //
-    const { limit = 10, offset = 0 } = options;
-   
-    
-    return this.http.get<ContratistasResponse>(`${baseUrl}/contratistas`, {
-      params: {
-        limit,
-        offset
-
-      }
-    }).pipe(
-      tap((resp) => console.log(resp))
-    )
+  // Servicio para traer todos los contratistas SIN opciones
+  getAllContratistas(): Observable<Contratista[]> {
+    return this.http.get<Contratista[]>(`${baseUrl}/contratistas`).pipe(
+      // tap(resp => console.log('Contratistas recibidos:', resp))
+    );
   }
 
-    */
+  getAllTiposDocumentos(): Observable<TipoDocumento[]> {
+    return this.http.get<TipoDocumento[]>(`${baseUrl}/tipos-identificaciones`).pipe(
+      tap(resp => console.log('tipos-identificaciones recibidos:', resp))
+    );
+  }
 
-  /*
-    getContractors(options: Options): Observable<ContratistasResponse> { // ⬅️ CORRECCIÓN AQUÍ
-      //
-      const { limit = 10, offset = 0 } = options;
-      //console.log("GEnder ", gender);
-      //almacenar paginacion en cache 
-      
-      
-  
-      const key = `${limit}-${offset}`;  //concatenmado creo una llave
 
-  
-      return this.http.get<ContratistasResponse>(`${baseUrl}/contratistas`, {
-        params: {
-          limit,
-          offset,
-  
-        }
-      }).pipe(
-        tap((resp) => console.log(resp)),
-        //tap((resp) => this.productsCache.set(key,resp)  )
-      )
-    }
-*/
-
-// Caché para contratistas (análogo a productsCache)
+  // Caché para contratistas (análogo a productsCache)
   private contractorsCache = new Map<string, ContratistasResponse>();
 
   getContractors(options: Options): Observable<ContratistasResponse> {
-    const { limit = 10, offset = 0 } = options;
-    
+
+    const { limit = 10, offset = 0, search = '' } = options;
+
     // Generar llave única para el caché
-    const key = `${limit}-${offset}`; 
+    const key = `${limit}-${offset}-${search || 'all'}`;
+    //console.log(this.contractorsCache.entries());
 
     // Si ya existe en caché, retornamos el observable de los datos guardados
     if (this.contractorsCache.has(key)) {
       return of(this.contractorsCache.get(key)!);
     }
 
-    return this.http.get<ContratistasResponse>(`${baseUrl}/contratistas/paginator`, {
-      params: { limit, offset }
-    }).pipe(
-      tap(resp => console.log('Respuesta:', resp)),
-      // Guardamos en caché antes de devolver la respuesta
-      tap(resp => this.contractorsCache.set(key, resp))
-    );
+    // 2. Construimos los parámetros dinámicamente
+    const params: any = { limit, offset };
+
+    if (search) params.search = search;
+
+    return this.http.get<ContratistasResponse>(`${baseUrl}/contratistas/paginator`, { params })
+      .pipe(
+        tap((resp) => {
+          console.log(`response ${resp}`);
+          // Solo guardamos en cache si NO es una búsqueda muy específica 
+          // o guárdalo siempre, pero con la llave que incluye 'search'
+          this.contractorsCache.set(key, resp);
+        })
+      );
   }
 
 
