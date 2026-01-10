@@ -1,6 +1,6 @@
 // Tipos específicos para valores conocidos
 export type TipoPersonaType = "Persona natural" | "Persona jurídica";
-export type TipoIdentificacionType = "Cédula de ciudadanía" | "NIT" | string;
+export type TipoIdentificacionType = "Cédula de ciudadanía" | "Cédula de extranjería" |  "NIT" | "Otro" | string;
 /*
 // Interface principal para la respuesta de la API
 export interface ContratistasResponse {
@@ -18,9 +18,32 @@ export interface ContratistasResponse {
 
 // Interface para cada contratista con tipos más específicos
 export interface Contratista {
-
+  /*
+  id_contratista: number;
+  tipo_persona: TipoPersonaType;
+  id_tipo_identificacion: number;
+  cedula_nit: number;
+  DV: number | null | undefined;
+  otra_identificacion?: string | null;
+  nombre: string;
+  telefono?: string | null;
+  direccion?: string | null;
+  municipio?: string | null;
+  email: string | null;
+  grupo_Rh?: string | null;
+  profesion?: string | null;
+  cargo?: string | null;
+  contacto_emergencia?: string | null;
+  celular_contacto_emerg?: string | null;
+  parentesco?: string | null;
+  fecha_actualización?: string; // o Date si lo conviertes
+  version_row?: VersionRow;
+  tipoPersona: TipoPersona;
+  tipoIdentificacion: TipoIdentificacion;*/
     id_contratista: number;
     tipo_persona: string;
+    //tipo_identificacion: string;
+      tipoIdentificacion: TipoIdentificacion;
     id_tipo_identificacion: number;
     cedula_nit: number;
     DV: number | null | undefined;
@@ -40,7 +63,6 @@ export interface Contratista {
     version_row: VersionRow | null;
 }
 
-// Interface para el campo version_row (Buffer)
 export interface VersionRow {
   type: "Buffer";
   data: number[];

@@ -34,22 +34,6 @@ const emptyProduct : Product ={
 export class ProductsSErvice {
   private http = inject(HttpClient);
 
-  /*
-  getProducts (options:Options): Observable<ProductsResponse> {
-    const {limit=10,offset=0,gender=''} = options;
-    return this.http.get<ProductsResponse>(`${baseUrl}/products`,{
-      params :{
-        limit,
-        offset,
-        gender
-      }
-    }).pipe(
-      tap((resp)=>  console.log(resp)
-      )
-    )
-
-  }*/
-
   private productsCache = new Map<string, ProductsResponse>();
   //singular
   private productCache = new Map<string, Product>();
@@ -74,17 +58,6 @@ export class ProductsSErvice {
     if (gender) params.gender = gender;
     if (search) params.search = search;
 
-    /*
-    return this.http.get<ProductsResponse>(`${baseUrl}/products`, {
-      params: {
-        limit,
-        offset,
-        gender
-      }
-    }).pipe(
-      tap((resp) => console.log(resp)),
-      tap((resp) => this.productsCache.set(key, resp))
-    )*/
    return this.http.get<ProductsResponse>(`${baseUrl}/products`, { params })
     .pipe(
       tap((resp) => {
@@ -160,28 +133,6 @@ export class ProductsSErvice {
     console.log("Cache actualizado.");
     
   }
-
-
-
-  //=>concatenacion
-
-
-
-  /*
-  getProducts (options:Options): Observable<ProductsResponse> {
-
-      const {limit=10,offset=0,gender=''} = options;
-      return this.http.get<ProductsResponse>
-        (`${baseUrl}/products`)
-        .pipe(
-          tap (
-            (response) => console.log(response)
-          )
-        ) ; //<asi luce>
-  }*/
-
-
-  //almacenar paginacion en cache
 
 
 }

@@ -3,7 +3,7 @@ import { AdminDashboardLayout } from "./layouts/admin-dashboard-layout/admin-das
 import { ProductAdminPage } from "./pages/product-admin-page/product-admin-page";
 import { ProductsAdminPage } from "./pages/products-admin-page/products-admin-page";
 import { isAdminGuard } from "@auth/guards/is-admin.guard";
-import { Contractors } from "./pages/contractors/contractors";
+import { Contractors } from "./pages/contractors-admin-page/contractors";
 
 
 export const adminDashboardRoutes: Routes =[

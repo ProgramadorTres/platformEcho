@@ -1,6 +1,7 @@
 export interface Contratista {
   id_contratista: number;
   tipo_persona: string;
+  tipoIdentificacion: TipoIdentificacion;
   id_tipo_identificacion: number;
   cedula_nit: number;
   DV: number | null | undefined;
@@ -21,7 +22,15 @@ export interface Contratista {
 }
 
 export interface VersionRow {
- type: "Buffer";  // "Buffer"
+  type: "Buffer";  // "Buffer"
   data: number[]; // Array de bytes
 }
 
+
+
+export type TipoPersonaType = "Persona natural" | "Persona jurídica";
+export type TipoIdentificacionType = "Cédula de ciudadanía" | "NIT" | string;
+export interface TipoIdentificacion {
+  Id: number;
+  tipo_identificacion: TipoIdentificacionType;
+}

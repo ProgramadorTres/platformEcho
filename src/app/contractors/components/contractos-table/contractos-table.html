@@ -1,0 +1,49 @@
+<div class="table-responsive">
+    <table class="table align-middle table-striped">
+        <!-- head -->
+        <thead class="table-light">
+            <tr>
+
+                <th scope="col">Nombre</th>
+                <th scope="col">Tipo de identificacion</th>
+                <th scope="col">Cedula/nit</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Correo</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- row 1 -->
+            @for(contractor of contractors();track contractor.id_contratista) {
+            <tr>
+                <td>
+                    {{contractor.nombre}}
+                </td>
+                <td>
+
+                    @if( contractor.tipoIdentificacion.tipo_identificacion === 'Cédula de ciudadanía') {
+                    <span class="badge border border-primary text-primary">{{
+                        contractor.tipoIdentificacion.tipo_identificacion }}</span>
+
+                    }@else if( contractor.tipoIdentificacion.tipo_identificacion ==='NIT') {
+                    <span class="badge border border-success text-success">{{
+                        contractor.tipoIdentificacion.tipo_identificacion }}</span>
+                    }
+                </td>
+                <td>
+                    {{contractor.cedula_nit? contractor.cedula_nit : '-' }}
+                </td>
+                <td>
+                    {{ contractor.telefono? contractor.telefono : '-'  }}
+                </td>
+                <td>
+                     {{ contractor.email? contractor.email : '-' }}
+
+                </td>
+            </tr>
+
+            }
+        </tbody>
+
+    </table>
+</div>

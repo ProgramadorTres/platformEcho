@@ -25,23 +25,6 @@ export class ProductsAdminPage {
   router = inject(Router); // Inyecta el Router
   //traiga y pagine
 
-  /*
-  productsResource = rxResource({
-    request: () => ({
-      page: this.paginationService.currentPage() - 1,
-      limit: this.productsPerPage()
-    }),
-    loader: ({ request }) => {
-      return this.productsService.getProducts({
-        offset: request.page * 10,
-        limit: this.productsPerPage()
-      });
-    },
-  });*/
-
-
-  // lista filtrada
-  //filteredProducts = signal<any[]>([]);
 
 
 
@@ -64,23 +47,14 @@ export class ProductsAdminPage {
 
   // La tabla simplemente muestra lo que el recurso trae del server
   filteredProducts = computed(() => this.productsResource.value()?.products ?? []);
-/*
-  onSearch(term: string) {
-    this.searchTerm.set(term);
-    // IMPORTANTE: Al buscar, reseteamos a la página 1 
-    this.paginationService.currentPage.set(1);
-  }
-*/
 
 
 onSearch(term: string) {
-  // 1. Seteamos el término (vacío o con texto)
+
   const cleanTerm = term ? term.trim() : '';
   this.searchTerm.set(cleanTerm);
 
-  // 2. Forzamos que la URL vuelva a la página 1
-  // Esto es vital porque si estabas en la página 5 y limpias el buscador,
-  // quieres ver la página 1 de todos los productos.
+
   this.router.navigate([], {
     queryParams: { page: 1 },
     queryParamsHandling: 'merge'
@@ -88,7 +62,6 @@ onSearch(term: string) {
 }
 
   pagesNumber(pages: number) {
-    // console.log(`Cambiando a ${pages} - ${ this.productsPerPage()}`);
 
     this.productsPerPage.set(pages);
   }

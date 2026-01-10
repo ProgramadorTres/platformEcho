@@ -11,8 +11,6 @@ export const routes: Routes = [
     canMatch: [
       // ()=> {  return true; console.log('Hellow World')}, //false falla
       NotAuthenticatedGuard,
-
-
     ]
   },
   {
@@ -24,7 +22,7 @@ export const routes: Routes = [
   {
     path: '',
     canMatch: [AuthenticatedGuard], // Si el token expiró, lo manda al login.
-    loadChildren: () => import('./store-front/store-front.routes')
+    loadChildren: () => import('./user-front/user-front.routes')
   },
   {
     path: '**',
