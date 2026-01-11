@@ -2,6 +2,7 @@
 import { Routes } from "@angular/router";
 import { UserFront } from "./layouts/user-front/user-front";
 import { ContractorsPageComponent } from "./pages/contractors-page.component/contractors-page.component";
+import { ProductAdminPage } from "@dashboard/pages/product-admin-page/product-admin-page";
 
 /*
 import { StoreFrontLayaout } from './layouts/store-front-layaout/store-front-layaout';
@@ -23,18 +24,11 @@ export const storeFrontRoutes : Routes = [
           path: 'contratistas',
           component: ContractorsPageComponent
       },
+
       /*
       {
-          path: 'gender/:gender',
-          component: GenderPageComponent
-      },
-      {
-          path: 'product/:idSlug',
-          component: ProductPageComponent
-      },
-      {
           path: '**',
-          component: NotFoundPageComponent
+          component: ContractorsPageComponent
       }*/
     ]
   },

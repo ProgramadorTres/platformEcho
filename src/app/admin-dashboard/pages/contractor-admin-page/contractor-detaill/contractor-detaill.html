@@ -1,0 +1,39 @@
+<h1 class="h2 fw-bold">{{ contractor().nombre }}</h1>
+<hr />
+
+<form class="row g-4" [formGroup]="contractForm">
+    <!-- Datos generales -->
+    <div class="col-12 col-sm-6 d-flex flex-column gap-2">
+        <h2 class="h4 fw-bold mb-3">Datos generales</h2>
+
+        <input type="text" placeholder="Nombres y apellidos" class="form-control border" formControlName="nombre"
+            [class.border-danger]="contractForm.get('nombre')?.errors ?? false" />
+
+        <form-error-label [control]="contractForm.get('nombre')!" />
+
+
+        <select formControlName="tipoPersona" class="form-select">
+            <option value="">Seleccione...</option>
+            <option value="1">Cedula...</option>
+            <option value="1">unoo</option>
+            <option value="1">te</option>
+            <option value="1">moo</option>
+            <option value="1">pato</option>
+            <option value="1">monica</option>
+            <option value="1">sar</option>
+            <option value="1">Cre</option>
+        </select>
+
+
+    </div>
+
+
+
+    @if(wasSaved()) {
+    <div class="alert alert-success position-fixed bottom-0 end-0 m-4 fade show" style="width: 20rem;">
+        <span>Datos actualizados correctamente</span>
+    </div>
+    }
+
+
+</form>

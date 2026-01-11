@@ -21,13 +21,9 @@ export class ProductsAdminPage {
   productsPerPage = signal(10);
 
   searchTerm = signal('');
-  allProducts = signal<Product[]>([]); // acumulador global
-  router = inject(Router); // Inyecta el Router
+  allProducts = signal<Product[]>([]);
+  router = inject(Router);
   //traiga y pagine
-
-
-
-
 
   // El recurso se dispara cada vez que cambie: page, limit o searchTerm
   productsResource = rxResource({
@@ -48,18 +44,17 @@ export class ProductsAdminPage {
   // La tabla simplemente muestra lo que el recurso trae del server
   filteredProducts = computed(() => this.productsResource.value()?.products ?? []);
 
+  onSearch(term: string) {
 
-onSearch(term: string) {
-
-  const cleanTerm = term ? term.trim() : '';
-  this.searchTerm.set(cleanTerm);
+    const cleanTerm = term ? term.trim() : '';
+    this.searchTerm.set(cleanTerm);
 
 
-  this.router.navigate([], {
-    queryParams: { page: 1 },
-    queryParamsHandling: 'merge'
-  });
-}
+    this.router.navigate([], {
+      queryParams: { page: 1 },
+      queryParamsHandling: 'merge'
+    });
+  }
 
   pagesNumber(pages: number) {
 

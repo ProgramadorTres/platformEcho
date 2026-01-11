@@ -4,6 +4,7 @@ import { ProductAdminPage } from "./pages/product-admin-page/product-admin-page"
 import { ProductsAdminPage } from "./pages/products-admin-page/products-admin-page";
 import { isAdminGuard } from "@auth/guards/is-admin.guard";
 import { Contractors } from "./pages/contractors-admin-page/contractors";
+import { ContractorAdminPage } from "./pages/contractor-admin-page/contractor-admin-page";
 
 
 export const adminDashboardRoutes: Routes =[
@@ -12,21 +13,18 @@ export const adminDashboardRoutes: Routes =[
         component:AdminDashboardLayout,
         canMatch :[isAdminGuard],
         children:[
-            {
-                path: 'products',
-                component: ProductsAdminPage
-            },
-            {
-                path: 'products/:id',
-                component: ProductAdminPage
-            },
+
             {
                 path:'contratistas',
                 component: Contractors
             },
+                    {
+                path:'contratistas/:id',
+                component: ContractorAdminPage
+            },
             {
                 path:'**',
-                redirectTo: 'products'
+                redirectTo: 'contratistas'
             }
         ]
 

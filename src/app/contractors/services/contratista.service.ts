@@ -42,77 +42,14 @@ const emptyContratista: Contratista = {
 
 export class ContratistaService {
 
-  /*
-  private http = inject(HttpClient);
-
-  // Servicio para traer todos los contratistas SIN opciones
-  getAllContratistas(): Observable<Contratista[]> {
-    return this.http.get<Contratista[]>(`${baseUrl}/contratistas`).pipe(
-      // tap(resp => console.log('Contratistas recibidos:', resp))
-    );
-  }
-
-  getAllTiposDocumentos(): Observable<TipoDocumento[]> {
-    return this.http.get<TipoDocumento[]>(`${baseUrl}/tipos-identificaciones`).pipe(
-      tap(resp => console.log('tipos-identificaciones recibidos:', resp))
-    );
-  }
-
-
-  // Caché para contratistas (análogo a productsCache)
-  private contractorsCache = new Map<string, ContratistasResponse>();
-
-  getContractors(options: Options): Observable<ContratistasResponse> {
-
-    const { limit = 10, offset = 0, search = '' } = options;
-
-    console.log(`SEARCH ${search}`);
-    
-
-    // Generar llave única para el caché
-    const key = `${limit}-${offset}-${search || 'all'}`;
-    //console.log(this.contractorsCache.entries());
-
-    // Si ya existe en caché, retornamos el observable de los datos guardados
-    if (this.contractorsCache.has(key)) {
-      return of(this.contractorsCache.get(key)!);
-    }
-
-    // 2. Construimos los parámetros dinámicamente
-    const params: any = { limit, offset };
-
-    if (search) params.search = search;
-
-    console.log(`params.search   ${params.search }`);
-    
-
-    console.log(`Paramas ${params}`);
-    
-
-    return this.http.get<ContratistasResponse>(`${baseUrl}/contratistas/paginator`, { params })
-      .pipe(
-        tap((resp) => {
-          console.log(`response ${resp}`);
-          // Solo guardamos en cache si NO es una búsqueda muy específica 
-          // o guárdalo siempre, pero con la llave que incluye 'search'
-          this.contractorsCache.set(key, resp);
-        })
-      );
-  }
-*/
-
-
 
 
   private http = inject(HttpClient);
 
-  // ✅ Cache para listados (string key: combina limit-offset-search)
   private contractorsCache = new Map<string, ContratistasResponse>();
 
-  // ✅ Cache para individuales (number key: id_contratista)
   private contractorCache = new Map<number, Contratista>();
 
-  /** 🔹 Listado con paginación + búsqueda */
   getContractors(options: Options): Observable<ContratistasResponse> {
     const { limit = 10, offset = 0, search = '' } = options;
 
@@ -133,35 +70,41 @@ export class ContratistaService {
       );
   }
 
-  /** 🔹 Obtener todos sin paginación */
   getAllContratistas(): Observable<Contratista[]> {
     return this.http.get<Contratista[]>(`${baseUrl}/contratistas`);
   }
 
-  /** 🔹 Tipos de documentos */
   getAllTiposDocumentos(): Observable<TipoDocumento[]> {
     return this.http.get<TipoDocumento[]>(`${baseUrl}/tipos-identificaciones`)
       .pipe(tap(resp => console.log('Tipos recibidos:', resp)));
   }
 
-  /** 🔹 Obtener contratista por ID */
   getContratistaById(id: number | 'new'): Observable<Contratista> {
     if (id === 'new') {
       return of(emptyContratista);
     }
 
     if (this.contractorCache.has(id)) {
+      console.log("AQyu cahe");
+
       return of(this.contractorCache.get(id)!);
     }
 
     return this.http.get<Contratista>(`${baseUrl}/contratistas/${id}`)
       .pipe(
         delay(150),
-        tap((contratista) => this.contractorCache.set(contratista.id_contratista, contratista))
-      );
+
+
+        tap((contratista) => {
+          console.log(`contratista   ${contratista.nombre}`);
+          
+          this.contractorCache.set(contratista.id_contratista, contratista)
+        }
+
+
+        ));
   }
 
-  /** 🔹 Crear contratista */
   createContratista(contratistaLike: Partial<Contratista>): Observable<Contratista> {
     return this.http.post<Contratista>(`${baseUrl}/contratistas/`, contratistaLike)
       .pipe(
@@ -169,7 +112,6 @@ export class ContratistaService {
       );
   }
 
-  /** 🔹 Actualizar contratista */
   updateContratista(id: number, contratistaLike: Partial<Contratista>): Observable<Contratista> {
     return this.http.patch<Contratista>(`${baseUrl}/contratistas/${id}`, contratistaLike)
       .pipe(
@@ -177,7 +119,6 @@ export class ContratistaService {
       );
   }
 
-  /** 🔹 Actualizar caché */
   private updateContractorCache(contratista: Contratista) {
     const contractorId = contratista.id_contratista;
     this.contractorCache.set(contractorId, contratista);
@@ -192,4 +133,5 @@ export class ContratistaService {
 
     console.log('Cache de contratistas actualizado.');
 
-}}
+  }
+}

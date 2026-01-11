@@ -36,7 +36,6 @@ export class ContratistaService {
         );
     }
 
-
     getProducts(options: Options): Observable<ContratistasResponse> {
       
       //console.log("SE disparo!");
@@ -49,15 +48,9 @@ export class ContratistaService {
       params: {
         limit,
         offset
-
       }
     }).pipe(
       tap((resp) => console.log(resp))
     )
   }
-
-    
-
-
-
 }
