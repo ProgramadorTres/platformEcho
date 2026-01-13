@@ -13,5 +13,5 @@ export class ContractosTable {
   contractors = input.required<Contratista[]>();
   paginationService = inject(PaginationService);
   isHovered: any;
-product: any;
+  product: any;
 }
