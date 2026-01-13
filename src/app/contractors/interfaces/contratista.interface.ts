@@ -1,16 +1,16 @@
 export interface Contratista {
-  id_contratista: number;
+  id_contratista: number ;
   tipo_persona: string;
   tipoIdentificacion: TipoIdentificacion;
   id_tipo_identificacion: number;
-  cedula_nit: number;
+  cedula_nit: number |null | undefined;
   DV: number | null | undefined;
   otra_identificacion: string | null;
   nombre: string;
   telefono: string;
   direccion: string;
   municipio: string | null;
-  email: string;
+  email: string ;
   grupo_Rh: string | null;
   profesion: string | null;
   cargo: string | null;

@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PaginationComponentComponent } from '@shared/components/pagination-component/pagination-component.component';
 import { PaginationService } from '@shared/components/pagination-component/pagination.service';
 import { ContratistaService } from 'src/app/contractors/services/contratista.service';
@@ -12,7 +12,7 @@ import { ContractorsSearch } from 'src/app/contractors/components/contractors-se
 
 @Component({
   selector: 'contractors',
-  imports: [ PaginationComponentComponent, ContractosTable, ContractorsSearch,],
+  imports: [ PaginationComponentComponent, ContractosTable, ContractorsSearch,RouterLink],
   templateUrl: './contractors.html',
 })
 export class Contractors {

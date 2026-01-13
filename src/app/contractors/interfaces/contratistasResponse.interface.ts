@@ -45,7 +45,7 @@ export interface Contratista {
     //tipo_identificacion: string;
       tipoIdentificacion: TipoIdentificacion;
     id_tipo_identificacion: number;
-    cedula_nit: number;
+    cedula_nit: number | null | undefined;
     DV: number | null | undefined;
     otra_identificacion: string | null;
     nombre: string;

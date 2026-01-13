@@ -6,13 +6,10 @@ import { environment } from 'src/environments/environment';
 import { Contratista, TipoIdentificacion } from '../interfaces/contratista.interface';
 import { TipoDocumento } from '../interfaces/tipoDocumento.interface';
 import { ContratistasResponse } from '../interfaces/contratistasResponse.interface';
+import { Options } from '@shared/interfaces/paginator-options';
 
 const baseUrl = environment.baseUrl;
-interface Options {
-  limit?: number;
-  offset?: number;
-  search?: string;
-}
+
 
 
 const emptyContratista: Contratista = {
@@ -92,7 +89,7 @@ export class ContratistaService {
 
     return this.http.get<Contratista>(`${baseUrl}/contratistas/${id}`)
       .pipe(
-        delay(150),
+        //delay(150),
 
 
         tap((contratista) => {
@@ -106,6 +103,10 @@ export class ContratistaService {
   }
 
   createContratista(contratistaLike: Partial<Contratista>): Observable<Contratista> {
+
+console.log("contratista a cerar " , contratistaLike);
+
+
     return this.http.post<Contratista>(`${baseUrl}/contratistas/`, contratistaLike)
       .pipe(
         tap((contratista) => this.updateContractorCache(contratista))

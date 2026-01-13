@@ -1,39 +1,83 @@
-<h1 class="h2 fw-bold">{{ contractor().nombre }}</h1>
+<h1 class="h2 fw-bold">{{ contractor().nombre || 'Nuevo Contratista' }}</h1>
 <hr />
 
-<form class="row g-4" [formGroup]="contractForm">
-    <!-- Datos generales -->
-    <div class="col-12 col-sm-6 d-flex flex-column gap-2">
+<form class="row g-4 w-100" [formGroup]="contractForm" (ngSubmit)="ContractonSubmit()">
+    <div class="col-md-8 offset-md-2 d-flex flex-column gap-2">
         <h2 class="h4 fw-bold mb-3">Datos generales</h2>
 
-        <input type="text" placeholder="Nombres y apellidos" class="form-control border" formControlName="nombre"
-            [class.border-danger]="contractForm.get('nombre')?.errors ?? false" />
+        <label>Tipo de persona</label>
+        <ng-select formControlName="tipoPersona" 
+                   [items]="personTypesResource.value() ?? []" 
+                   bindLabel="tipo_persona"
+                   bindValue="tipo_persona" 
+                   placeholder="Buscar tipo persona..." 
+                   [clearable]="false">
+        </ng-select>
+        <form-error-label [control]="contractForm.get('tipoPersona')!" />
 
+        <label>Tipo de identificación</label>
+        <ng-select formControlName="tipoIdentificacion" 
+                   [items]="typesDocResource.value() ?? []"
+                   bindLabel="tipo_identificacion" 
+                   bindValue="Id" 
+                   placeholder="Buscar tipo identificación..." 
+                   [clearable]="false">
+        </ng-select>
+        <form-error-label [control]="contractForm.get('tipoIdentificacion')!" />
+
+        <div class="row">
+            <ng-container *ngIf="contractForm.get('tipoIdentificacion')?.value === 3; else defaultDoc">
+                <div class="col-md-8 col-12">
+                    <label>Número de documento (NIT)</label>
+                    <input type="text" class="form-control border" formControlName="cedula_nit" [class.border-danger]="contractForm.get('cedula_nit')?.invalid && contractForm.get('cedula_nit')?.touched" />
+                    <form-error-label [control]="contractForm.get('cedula_nit')!" />
+                </div>
+                <div class="col-md-4 col-12">
+                    <label>DV</label>
+                    <input type="text" class="form-control border" formControlName="dv" />
+                </div>
+            </ng-container>
+
+            <ng-template #defaultDoc>
+                <div class="col-12">
+                    <label>Número de documento</label>
+                    <input type="text" class="form-control border" formControlName="cedula_nit" />
+                    <form-error-label [control]="contractForm.get('cedula_nit')!" />
+                </div>
+            </ng-template>
+        </div>
+
+        <label>Otra Identificación</label>
+        <input type="text" class="form-control border" formControlName="otraIdentificacion" />
+
+        <label>Nombres y Apellidos</label>
+        <input type="text" class="form-control border" formControlName="nombre" />
         <form-error-label [control]="contractForm.get('nombre')!" />
 
+        <label>Teléfono</label>
+        <input type="text" class="form-control border" formControlName="telefono" />
 
-        <select formControlName="tipoPersona" class="form-select">
-            <option value="">Seleccione...</option>
-            <option value="1">Cedula...</option>
-            <option value="1">unoo</option>
-            <option value="1">te</option>
-            <option value="1">moo</option>
-            <option value="1">pato</option>
-            <option value="1">monica</option>
-            <option value="1">sar</option>
-            <option value="1">Cre</option>
-        </select>
+        <label>Dirección</label>
+        <input type="text" class="form-control border" formControlName="direccion" />
 
-
+        <label>Correo Electrónico</label>
+        <input type="text" class="form-control border" formControlName="email" />
     </div>
 
-
-
     @if(wasSaved()) {
-    <div class="alert alert-success position-fixed bottom-0 end-0 m-4 fade show" style="width: 20rem;">
-        <span>Datos actualizados correctamente</span>
+    <div class="alert position-fixed bottom-0 end-0 m-4 fade show" 
+         [ngClass]="isError() ? 'alert-danger' : 'alert-success'"
+         style="width: 20rem; z-index: 1050; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        <div class="d-flex align-items-center">
+            <i class="bi me-2" [class]="isError() ? 'bi-exclamation-triangle' : 'bi-check-circle'"></i>
+            <span>{{ saveMessage() }}</span>
+        </div>
     </div>
     }
 
-
+    <div class="col-md-8 offset-md-2 d-flex justify-content-end mb-5">
+        <button class="btn btn-primary px-4" type="submit">
+            <i class="bi bi-save me-2"></i> Guardar Contratista
+        </button>
+    </div>
 </form>
