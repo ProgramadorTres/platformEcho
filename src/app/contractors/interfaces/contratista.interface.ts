@@ -34,3 +34,5 @@ export interface TipoIdentificacion {
   Id: number;
   tipo_identificacion: TipoIdentificacionType;
 }
+
+

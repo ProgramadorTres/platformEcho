@@ -18,28 +18,7 @@ export interface ContratistasResponse {
 
 // Interface para cada contratista con tipos más específicos
 export interface Contratista {
-  /*
-  id_contratista: number;
-  tipo_persona: TipoPersonaType;
-  id_tipo_identificacion: number;
-  cedula_nit: number;
-  DV: number | null | undefined;
-  otra_identificacion?: string | null;
-  nombre: string;
-  telefono?: string | null;
-  direccion?: string | null;
-  municipio?: string | null;
-  email: string | null;
-  grupo_Rh?: string | null;
-  profesion?: string | null;
-  cargo?: string | null;
-  contacto_emergencia?: string | null;
-  celular_contacto_emerg?: string | null;
-  parentesco?: string | null;
-  fecha_actualización?: string; // o Date si lo conviertes
-  version_row?: VersionRow;
-  tipoPersona: TipoPersona;
-  tipoIdentificacion: TipoIdentificacion;*/
+
     id_contratista: number;
     tipo_persona: string;
     //tipo_identificacion: string;

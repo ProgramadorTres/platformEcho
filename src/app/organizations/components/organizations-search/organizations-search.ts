@@ -1,30 +1,29 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { OrganizationService } from '../../services/organization';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ProductsSErvice } from '@products/services/products.services';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { ContratistaService } from '../../services/contratista.service';
 
 @Component({
-  selector: 'contractors-search',
+  selector: 'organizations-search',
   imports: [ReactiveFormsModule],
-  templateUrl: './contractors-search.html',
+  templateUrl: './organizations-search.html',
 })
-export class ContractorsSearch {
-
-  contractService = inject(ContratistaService);
+export class OrganizationsSearch {
+  
+  organizationService = inject(OrganizationService);
   searchControl = new FormControl('');
-
   @Output() search = new EventEmitter<string>();
-
   constructor() {
     this.searchControl.valueChanges.pipe(
-      debounceTime(300),
+      debounceTime(180),
       distinctUntilChanged()
     ).subscribe(value => {
       // Si el valor es null o undefined (al limpiar con X), enviamos string vacío
-      console.log(`Quien llego ${value}`);
+      //console.log(`Quien llego ${value}`);
 
       this.search.emit(value ?? '');
     });
   }
+
+
 }

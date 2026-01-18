@@ -5,25 +5,34 @@ import { ProductsAdminPage } from "./pages/products-admin-page/products-admin-pa
 import { isAdminGuard } from "@auth/guards/is-admin.guard";
 import { Contractors } from "./pages/contractors-admin-page/contractors";
 import { ContractorAdminPage } from "./pages/contractor-admin-page/contractor-admin-page";
+import { OrganizationsAdminPage } from "./pages/organizations-admin-page/organizations-admin-page";
+import { OrganizationAdminPage } from "./pages/organization-admin-page/organization-admin-page";
 
 
-export const adminDashboardRoutes: Routes =[
+export const adminDashboardRoutes: Routes = [
     {
         path: '',
-        component:AdminDashboardLayout,
-        canMatch :[isAdminGuard],
-        children:[
-
+        component: AdminDashboardLayout,
+        canMatch: [isAdminGuard],
+        children: [
             {
-                path:'contratistas',
+                path: 'contratistas',
                 component: Contractors
             },
-                    {
-                path:'contratistas/:id',
+            {
+                path: 'contratistas/:id',
                 component: ContractorAdminPage
             },
             {
-                path:'**',
+                path: 'organizaciones',
+                component: OrganizationsAdminPage
+            },
+            {
+                path: 'organizaciones/:id',
+                component: OrganizationAdminPage
+            },
+            {
+                path: '**',
                 redirectTo: 'contratistas'
             }
         ]

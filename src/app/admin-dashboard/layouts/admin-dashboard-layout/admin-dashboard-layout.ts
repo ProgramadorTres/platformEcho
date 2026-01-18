@@ -17,7 +17,7 @@ export class AdminDashboardLayout  implements OnInit{
 
   menuOptions: MenuOption[] = [
     {
-      icon: 'bi bi-award-fill fs-4',
+      icon: 'bi bi-scales fs-4',
       label: 'jurídica',
       //route: '/dasboard/juridica',  // ← Correcto
       subLAbel: 'módulo jurídica',

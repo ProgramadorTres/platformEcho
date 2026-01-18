@@ -1,0 +1,49 @@
+<div class="table-responsive">
+    <table class="table align-middle table-striped mt-4">
+        <!-- head -->
+        <thead class="table-light">
+            <tr>
+                <th scope="col">No.organizacion</th>
+                <th scope="col">Nombre organización</th>
+                <th scope="col">Nit</th>
+                <th scope="col">Digito de verificacion</th>
+                <th scope="col">Nacionalidad organización</th>
+                <th scope="col">Tipo organización</th>
+                <th scope="col">Pais organización</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- row 1 -->
+            @for(organization of organizations();track organization.no_organizacion) {
+            <tr>
+                <td>
+                    {{organization.no_organizacion}}
+                </td>
+                <td>
+                    <!--Tilde-->
+                    {{ organization['nombre_organización'] ? organization['nombre_organización'] : '-' }}
+                </td>
+                <td>
+                    {{ organization.NIT? organization.NIT : '-'}}
+                </td>
+                <td>
+                    {{ organization['dígito_verificación_NIT']? organization['dígito_verificación_NIT'] :'-' }}
+                </td>
+                <td>
+                    <span class="badge border border-primary text-primary">
+                        {{
+                        organization.nacionalidadOrganizacione.nacionalidad_org?organization.nacionalidadOrganizacione.nacionalidad_org:'-'
+                        }}
+                    </span>
+                </td>
+                <td>
+                    {{ organization.TiposOrganizacione?.['tipo_organización'] ?? '-'  |  capitalize }} 
+                </td>
+                <td>
+                    {{ organization.paisesOrganizacion?.['país_organización']  ?? '-'  |  capitalize  }}
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -22,7 +22,6 @@ export class Contractors {
   contractsPerPage = signal(10);
   searchContractor = signal('');
 
-
   contractorssResource = rxResource({
     request: () => ({
       page: this.paginationService.currentPage() - 1,
@@ -43,8 +42,6 @@ export class Contractors {
 
 
   onSearch(term: string) {
-   // console.log(`oseacrh ${term}`);
-
     const cleanTerm = term ? term : '';
       this.searchContractor.set(cleanTerm);
     this.router.navigate([], {

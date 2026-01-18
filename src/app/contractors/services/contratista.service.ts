@@ -10,8 +10,6 @@ import { Options } from '@shared/interfaces/paginator-options';
 
 const baseUrl = environment.baseUrl;
 
-
-
 const emptyContratista: Contratista = {
   id_contratista: 0,
   tipo_persona: '',
@@ -38,8 +36,6 @@ const emptyContratista: Contratista = {
 @Injectable({ providedIn: 'root' })
 
 export class ContratistaService {
-
-
 
   private http = inject(HttpClient);
 
@@ -94,7 +90,7 @@ export class ContratistaService {
 
         tap((contratista) => {
           console.log(`contratista   ${contratista.nombre}`);
-          
+
           this.contractorCache.set(contratista.id_contratista, contratista)
         }
 
@@ -104,7 +100,7 @@ export class ContratistaService {
 
   createContratista(contratistaLike: Partial<Contratista>): Observable<Contratista> {
 
-console.log("contratista a cerar " , contratistaLike);
+    console.log("contratista a cerar ", contratistaLike);
 
 
     return this.http.post<Contratista>(`${baseUrl}/contratistas/`, contratistaLike)
