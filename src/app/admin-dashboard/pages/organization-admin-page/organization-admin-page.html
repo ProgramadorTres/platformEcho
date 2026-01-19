@@ -1,1 +1,13 @@
-<p>organization-admin-page works!</p>,
+
+@if( organizationResource.isLoading()) {
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+</div>
+}
+<!--   ya tiene un valor   -->
+@if(organizationResource.hasValue()) {
+<organization-detaill  [organization]="organizationResource.value()!" ></organization-detaill>
+
+}

@@ -1,0 +1,104 @@
+<h1 class="h2 fw-bold">{{ organization()['nombre_organización'] || 'Nueva Organización' }}</h1>
+<hr />
+
+<form class="row g-3 w-100 mb-5" [formGroup]="organizationForm" (ngSubmit)="OrganizationOnSubmit()">
+    <div class="col-md-10 offset-md-1 d-flex flex-column gap-3">
+
+        <div class="row g-2">
+            <div class="col-md-12">
+                <label class="form-label">ID Organización *</label>
+                <input type="text" class="form-control" formControlName="id_organización" />
+                <form-error-label [control]="organizationForm.get('id_organización')!" />
+            </div>
+            <div class="col-md-12">
+                <label class="form-label">Nombre Organización *</label>
+                <input type="text" class="form-control" formControlName="nombre_organización" />
+            </div>
+
+            <div class="col-md-10">
+                <label class="form-label">NIT</label>
+                <input type="number" class="form-control" formControlName="NIT" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">DV</label>
+                <input type="number" class="form-control" formControlName="dígito_verificación_NIT" />
+            </div>
+            <div class="col-md-12">
+                <label class="form-label">Nacionalidad</label>
+                <ng-select formControlName="nacionalidad_organización" [items]="orgNationalitiesResource.value() ?? []"
+                    bindLabel="nacionalidad_org" bindValue="nacionalidad_org"></ng-select>
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Tipo Organización *</label>
+                <ng-select formControlName="id_tipo_organizacion" [items]="orgTypesResource.value() ?? []"
+                    bindLabel="tipo_organización" bindValue="ID"></ng-select>
+            </div>
+            <div class="col-md-12">
+                <label class="form-label">Responsable</label>
+                <input type="text" class="form-control" formControlName="responsable_organización" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Teléfono</label>
+                <input type="text" class="form-control" formControlName="teléfono_organización" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Correo electronico</label>
+                <input type="email" class="form-control" formControlName="e-mail_organización" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Pagina Web</label>
+                <input type="text" class="form-control" formControlName="web_operador" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Dirección</label>
+                <input type="text" class="form-control" formControlName="Dirección" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Ubicación</label>
+                <input type="text" class="form-control" formControlName="Ubicación" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">País</label>
+                <ng-select formControlName="id_pais" [items]="orgCountriesResource.value() ?? []"
+                    bindLabel="país_organización" bindValue="id_pais"></ng-select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Otra identificacion</label>
+                <input type="text" class="form-control" formControlName="identificación_otro" />
+            </div>
+
+
+
+            <div class="col-md-12">
+                <label class="form-label">Calificacion Técnica</label>
+                <input type="number" class="form-control" formControlName="calificacion_tecnica" />
+            </div>
+            <div class="col-md-12">
+                <label class="form-label">Comentario calificacion Técnica</label>
+                <input type="text" class="form-control" formControlName="coment_calif_tecnica" />
+            </div>
+            <div class="col-md-12">
+                <label class="form-label">Calificacion Admin</label>
+                <textarea class="form-control" formControlName="calificacion_admin" rows="4"></textarea>
+
+            </div>
+            <div class="col-md-12">
+                <label class="form-label">Comentario calificacion Admin</label>
+                <textarea class="form-control" formControlName="coment_calif_admin" rows="4"></textarea>
+            </div>
+        </div>
+        @if(wasSaved()){
+        <div class="alert" [ngClass]="isError() ? 'alert-danger' : 'alert-success'">
+            {{ saveMessage() }}
+        </div>
+        }
+
+        <div class="d-flex justify-content-end mb-4">
+            <button class="btn btn-primary px-5 shadow" type="submit">Guardar</button>
+        </div>
+    </div>
+</form>

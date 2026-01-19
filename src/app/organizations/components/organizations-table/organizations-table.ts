@@ -3,10 +3,11 @@ import { Organization } from '../../interfaces/organizations.interface';
 import { PaginationService } from '@shared/components/pagination-component/pagination.service';
 import { CommonModule } from '@angular/common';
 import { CapitalizePipe } from "../../../utils/pipes/capitalize.pipe";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'organizations-table',
-  imports: [ CommonModule,CapitalizePipe],
+  imports: [ CommonModule,CapitalizePipe,RouterLink],
   templateUrl: './organizations-table.html',
 })
 export class OrganizationsTable {

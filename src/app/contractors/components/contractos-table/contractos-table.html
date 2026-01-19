@@ -1,11 +1,9 @@
 <div class="table-responsive">
     <table class="table align-middle table-striped mt-4">
-        <!-- head -->
         <thead class="table-light">
             <tr>
-
                 <th scope="col">Nombre</th>
-                <th scope="col">Tipo de identificacion</th>
+                <th scope="col">Tipo de identificación</th>
                 <th scope="col">Cedula/nit</th>
                 <th scope="col">Telefono</th>
                 <th scope="col">Correo</th>
@@ -13,46 +11,36 @@
             </tr>
         </thead>
         <tbody>
-            <!-- row 1 -->
-            @for(contractor of contractors();track contractor.id_contratista) {
+            @for(contractor of contractors(); track contractor.id_contratista) {
             <tr>
-                <td>
+                <td data-label="Nombre" class="fw-bold text-dark">
                     {{contractor.nombre}}
-
-
                 </td>
-                <td>
-
+                <td data-label="Tipo ID">
                     @if( contractor.tipoIdentificacion.tipo_identificacion === 'Cédula de ciudadanía') {
-                    <span class="badge border border-primary text-primary">{{
-                        contractor.tipoIdentificacion.tipo_identificacion }}</span>
-
-                    }@else if( contractor.tipoIdentificacion.tipo_identificacion ==='NIT') {
-                    <span class="badge border border-success text-success">{{
-                        contractor.tipoIdentificacion.tipo_identificacion }}</span>
+                        <span class="badge border border-primary text-primary">{{ contractor.tipoIdentificacion.tipo_identificacion }}</span>
+                    } @else if( contractor.tipoIdentificacion.tipo_identificacion ==='NIT') {
+                        <span class="badge border border-success text-success">{{ contractor.tipoIdentificacion.tipo_identificacion }}</span>
                     }
                 </td>
-                <td>
-                    {{contractor.cedula_nit? contractor.cedula_nit : '-' }}
+                <td data-label="Cedula/NIT" class="d-md-table-cell">
+                    {{contractor.cedula_nit ? contractor.cedula_nit : '-' }}
                 </td>
-                <td>
-                    {{ contractor.telefono? contractor.telefono : '-' }}
+                <td data-label="Teléfono" class="d-md-table-cell">
+                    {{ contractor.telefono ? contractor.telefono : '-' }}
                 </td>
-                <td>
-                    {{ contractor.email? contractor.email : '-' }}
-
+                <td data-label="Correo" class="d-md-table-cell text-break">
+                    {{ contractor.email ? contractor.email : '-' }}
                 </td>
-                <td>
+                <td data-label="Acciones">
                     <a [routerLink]="['/admin/contratistas', contractor.id_contratista]"
-                        class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1">
+                        class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1 w-100-sm justify-content-center">
                         <i class="bi bi-pencil-square"></i>
-                        Editar
+                        <span>Editar</span>
                     </a>
                 </td>
             </tr>
-
             }
         </tbody>
-
     </table>
 </div>

@@ -1,3 +1,4 @@
+import { style } from '@angular/animations';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
@@ -9,11 +10,16 @@ import { MenuOption } from '@dashboard/interfaces/admin-menu-option.interface';
   selector: 'app-admin-dashboard-layout',
   imports: [RouterOutlet, RouterLink, RouterLinkActive, TopMenu],
   templateUrl: './admin-dashboard-layout.html',
+  styleUrl: './admin-dashboard-layout.css'
 })
 export class AdminDashboardLayout  implements OnInit{
   authService = inject(AuthService);
   user = computed(() => this.authService.user());
   selectedPages: string[] = [];
+
+  selectedOption: MenuOption | null = null; // Para rastrear cuál está activa
+
+
 
   menuOptions: MenuOption[] = [
     {
@@ -32,12 +38,14 @@ export class AdminDashboardLayout  implements OnInit{
     },
   ];
 
-
-  selectMenu(option: MenuOption) {
+selectMenu(option: MenuOption) {
+    this.selectedOption = option; // Guardamos la referencia de la opción clicada
     this.selectedPages = option.pages ?? [];
     console.log("pages ", this.selectedPages);
-
   }
+
+
+
 
 
   ngOnInit() {
@@ -45,4 +53,10 @@ export class AdminDashboardLayout  implements OnInit{
     this.selectedPages = this.menuOptions[0].pages ?? [];
   }
 
+
+  menuOpen = false; // Controla si el menú está abierto en móvil
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }

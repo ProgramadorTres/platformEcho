@@ -19,7 +19,7 @@ import { map } from 'rxjs';
 })
 export class ContractorDetaill implements OnInit {
 
-private fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private contractorService = inject(ContratistaService);

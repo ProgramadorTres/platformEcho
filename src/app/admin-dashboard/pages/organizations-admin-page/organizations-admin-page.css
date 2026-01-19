@@ -1,0 +1,59 @@
+/* Ajustes visuales */
+.toolbar {
+    padding: 0.5rem 0;
+}
+
+.per-page-select {
+    height: 2.5rem;
+    min-width: 8rem;
+    margin-bottom: 0;
+    /* evita desalineación vertical */
+}
+
+.new-btn {
+    height: 2.5rem;
+    white-space: nowrap;
+    margin-bottom: 0;
+}
+
+app-pagination {
+    margin-bottom: 0;
+}
+
+/* Responsive solo para móviles */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.5rem !important;
+    }
+
+    .form-select {
+        font-size: 16px !important;
+        /* evita zoom automático en iOS */
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .toolbar>div,
+    .toolbar>button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+organizations-search {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+
+
+@media (min-width: 768px) {
+    .ajuste-superior-md {
+        margin-top: -0.8rem !important;
+    }
+}

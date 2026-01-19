@@ -17,7 +17,12 @@
             @for(organization of organizations();track organization.no_organizacion) {
             <tr>
                 <td>
-                    {{organization.no_organizacion}}
+                    <a [routerLink]="['/admin/organizaciones', organization.no_organizacion]">
+
+                        <span> {{organization.no_organizacion}}</span>
+                    </a>
+
+
                 </td>
                 <td>
                     <!--Tilde-->
@@ -37,10 +42,10 @@
                     </span>
                 </td>
                 <td>
-                    {{ organization.TiposOrganizacione?.['tipo_organización'] ?? '-'  |  capitalize }} 
+                    {{ organization.TiposOrganizacione?.['tipo_organización'] ?? '-' | capitalize }}
                 </td>
                 <td>
-                    {{ organization.paisesOrganizacion?.['país_organización']  ?? '-'  |  capitalize  }}
+                    {{ organization.paisesOrganizacion?.['país_organización'] ?? '-' | capitalize }}
                 </td>
             </tr>
             }

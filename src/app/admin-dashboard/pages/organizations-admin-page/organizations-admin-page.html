@@ -1,49 +1,63 @@
-<h1 class="fs-2 fw-bold">Listado de organizaciones</h1>
-<h3 class="fs-5">
-  Total de organizaciones
-  <span class="text-primary">{{ organizationsResource.value()?.count ?? 0 }}</span>
+<h1 class="fs-2 fw-bold text-wrap">Listado de organizaciones</h1>
+
+<h3 class="fs-6 text-muted">
+  Total de organizaciones:
+  <span class="text-primary fw-bold">
+    {{ organizationsResource.value()?.count ?? 0 }}
+  </span>
 </h3>
-<div class="my-2"></div>
 
 @if (organizationsResource.error()) {
-<div class="alert alert-danger d-flex align-items-center" role="alert">
-  <div>
-    Error al cargar organizaciones
+  <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <div>Error al cargar organizaciones</div>
   </div>
-</div>
-}@else{
-    <div class="row">
-  <div class="col-12">
-    <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
-      <div class="d-flex align-items-center">
-        <app-pagination [pages]="organizationsResource.value()?.pages ?? 0"
-          [currentPage]="paginationService.currentPage()" />
+} @else {
+
+  <!-- BARRA SUPERIOR -->
+  <div class="row mt-4 mb-3">
+    <div class="col-12">
+      <div class="toolbar d-flex align-items-center justify-content-between">
+
+        <!-- IZQUIERDA: Paginación + Select -->
+        <div class="d-flex align-items-center gap-3">
+          <!-- PAGINACIÓN -->
+          <app-pagination
+            [pages]="organizationsResource.value()?.pages ?? 0"
+            [currentPage]="paginationService.currentPage()">
+          </app-pagination>
+
+          <!-- SELECT -->
+          <select
+            #selectPerPage
+            (change)="organizationsPerPage.set(+selectPerPage.value)"
+            class="form-select form-select-sm per-page-select   " style="margin-top: -.8rem ;">
+            <option value="10">10 por página</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+
+        <!-- DERECHA: Botón -->
+        <button
+          routerLink="/admin/organizaciones/new"
+          class="btn btn-primary new-btn d-flex align-items-center gap-2  "  style="margin-top: -.8rem ;">
+          <i class="bi bi-plus-circle"></i>
+          <span>Nueva organización</span>
+        </button>
+
       </div>
-
-      <div class="d-flex align-items-center" style="margin-top: -1rem;">
-        <select (change)="organizationsPerPage.set(+selectPerPage.value)" #selectPerPage
-          class="form-select form-select-sm w-auto" style="min-width: 5rem; height: 2.25rem;">
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-      </div>
-
-      <!-- Botón alineado al borde derecho -->
-      <button routerLink="/admin/contratistas/new" class="btn btn-primary ms-auto d-flex align-items-center gap-1"
-        style="min-width: 5rem; margin-top: -16px; height: 2.25rem;">
-        <i class="bi bi-plus-circle"></i>
-        Nueva organizacion
-      </button>
-
     </div>
   </div>
-</div>
 
-<organizations-search   (search)="onSearch($event)" />
-<organizations-table [organizations]="filteredOrganizations()"/>
+  <div class="mb-4">
+    <organizations-search (search)="onSearch($event)"></organizations-search>
+  </div>
 
-
-
+  <div class="table-responsive shadow-sm rounded border">
+    <organizations-table
+      [organizations]="filteredOrganizations()">
+    </organizations-table>
+  </div>
 }

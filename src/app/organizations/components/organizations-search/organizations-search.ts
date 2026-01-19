@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { OrganizationService } from '../../services/organization';
+import { OrganizationService } from '../../services/organizations';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   templateUrl: './organizations-search.html',
 })
 export class OrganizationsSearch {
-  
+
   organizationService = inject(OrganizationService);
   searchControl = new FormControl('');
   @Output() search = new EventEmitter<string>();

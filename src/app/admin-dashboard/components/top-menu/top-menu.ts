@@ -4,13 +4,13 @@ import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'admin-top-menu',
-  imports: [RouterLink,RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './top-menu.html',
 })
-export class TopMenu { 
+export class TopMenu {
 
-      authService = inject (AuthService);
-      pagesRnder =  input.required<string[]>();
+  authService = inject(AuthService);
+  pagesRnder = input.required<string[]>();
+  isMenuCollapsed = true;
 
-   
 }
