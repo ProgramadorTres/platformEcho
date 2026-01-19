@@ -10,6 +10,7 @@
                 <th scope="col">Nacionalidad organización</th>
                 <th scope="col">Tipo organización</th>
                 <th scope="col">Pais organización</th>
+                @if (isAdmin()) {<th scope="col">Acciones</th>}
             </tr>
         </thead>
         <tbody>
@@ -17,12 +18,7 @@
             @for(organization of organizations();track organization.no_organizacion) {
             <tr>
                 <td>
-                    <a [routerLink]="['/admin/organizaciones', organization.no_organizacion]">
-
-                        <span> {{organization.no_organizacion}}</span>
-                    </a>
-
-
+                    {{organization.no_organizacion}}
                 </td>
                 <td>
                     <!--Tilde-->
@@ -46,6 +42,23 @@
                 </td>
                 <td>
                     {{ organization.paisesOrganizacion?.['país_organización'] ?? '-' | capitalize }}
+                </td>
+                @if (isAdmin()) {
+                <td>
+                    <a [routerLink]="['/admin/organizaciones', organization.no_organizacion]"
+                        class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1 w-100-sm justify-content-center">
+                        <i class="bi bi-pencil-square"></i>
+                        <span>Editar</span>
+                    </a>
+                </td>}
+            </tr>
+            }
+            @empty {
+            <tr>
+                <td colspan="7" class="text-center">
+                    <div class="alert alert-warning text-center">
+                        No se encontraron organizaciones con los filtros aplicados.
+                    </div>
                 </td>
             </tr>
             }

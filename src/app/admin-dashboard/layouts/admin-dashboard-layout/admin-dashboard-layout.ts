@@ -12,20 +12,17 @@ import { MenuOption } from '@dashboard/interfaces/admin-menu-option.interface';
   templateUrl: './admin-dashboard-layout.html',
   styleUrl: './admin-dashboard-layout.css'
 })
-export class AdminDashboardLayout  implements OnInit{
+export class AdminDashboardLayout implements OnInit {
   authService = inject(AuthService);
   user = computed(() => this.authService.user());
   selectedPages: string[] = [];
 
   selectedOption: MenuOption | null = null; // Para rastrear cuál está activa
 
-
-
   menuOptions: MenuOption[] = [
     {
       icon: 'bi bi-scales fs-4',
       label: 'jurídica',
-      //route: '/dasboard/juridica',  // ← Correcto
       subLAbel: 'módulo jurídica',
       pages: ['convenios', 'contratos', 'contratistas', 'organizaciones', 'coordinadores']
     },
@@ -33,28 +30,21 @@ export class AdminDashboardLayout  implements OnInit{
     {
       icon: 'fa-solid fa-chart-line',
       label: 'Financiera',
-      //route: '/dasboard/search',    // ← CORREGIDO: era "route" con 'a'
       subLAbel: 'Buscar Gifts'
     },
   ];
 
-selectMenu(option: MenuOption) {
+  selectMenu(option: MenuOption) {
     this.selectedOption = option; // Guardamos la referencia de la opción clicada
     this.selectedPages = option.pages ?? [];
     console.log("pages ", this.selectedPages);
   }
 
-
-
-
-
   ngOnInit() {
-    // 👇 Carga por defecto la primera opción
     this.selectedPages = this.menuOptions[0].pages ?? [];
   }
 
-
-  menuOpen = false; // Controla si el menú está abierto en móvil
+  menuOpen = false;
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;

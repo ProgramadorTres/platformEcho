@@ -1,0 +1,52 @@
+/* Configuración de Márgenes Adaptables */
+.main-content {
+    transition: margin-left 0.3s ease;
+    margin-left: 0; /* Por defecto en móvil */
+    width: 100%;
+}
+
+/* Solo en pantallas grandes (Desktop) aplicamos el margen del sidebar */
+@media (min-width: 992px) {
+    .main-content {
+        margin-left: 16rem;
+        width: calc(100% - 16rem);
+    }
+}
+
+/* Efecto hover suave para los enlaces del menú */
+.hover-effect:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: 0.2s;
+}
+
+/* Asegurar que el contenido no quede debajo del botón de hamburguesa en móvil */
+@media (max-width: 991px) {
+    .main-content {
+        padding-top: 3.5rem !important;
+    }
+}
+
+/* Estilo para las tablas dentro del router-outlet */
+::ng-deep .table-responsive {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    background: white;
+}
+
+
+/* Efecto al pasar el mouse */
+.hover-effect:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white !important;
+}
+
+/* Cuando la ruta está activa, forzamos el color blanco */
+.active {
+    color: white !important;
+    border-bottom: none !important; /* Opcional: quita el borde si está activo */
+}
+
+/* Suavizar cambios de color */
+.transition-all {
+    transition: all 0.2s ease-in-out;
+}

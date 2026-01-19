@@ -56,117 +56,66 @@ export class AuthService {
             password: password
         }).pipe(
             //tap efectos secundarios
-             tap(resp => console.log('Respuesta del login:', resp)),
+            tap(resp => console.log('Respuesta del login:', resp)),
 
             map(resp =>
                 this.handleAuthSuccess(resp)
-            
+
             ),
-                
+
             catchError((error: any) => this.HandleAuthError(error))
         );
     }
 
     private statusCache = new Map<string, boolean>();
-/*
-    checkStatus(): Observable<boolean> {
 
+    checkStatus(): Observable<boolean> {
         const token = localStorage.getItem('tokenEco');
         if (!token) {
-            this.logout();
+            // Solo limpiar estado, NO navegar aquí
+            this._user.set(null);
+            this._token.set(null);
+            this._authStatus.set('not-authenticated');
+            this.statusCache.clear();
             return of(false);
         }
 
-        // llave única: el token
         const key = token;
         if (this.statusCache.has(key)) {
             return of(this.statusCache.get(key)!);
         }
 
-        //new 
         return this.http.get<AuthResponse>(`${baseUrl}/auth/check-status`).pipe(
             map(resp => this.handleAuthSuccess(resp)),
             tap(result => this.statusCache.set(key, result)),
-            catchError(err => this.HandleAuthError(err))
+            catchError(err => {
+                // Solo limpiar estado, NO navegar aquí
+                this._user.set(null);
+                this._token.set(null);
+                this._authStatus.set('not-authenticated');
+                localStorage.removeItem('tokenEco');
+                this.statusCache.clear();
+                return of(false);
+            })
         );
-
-
-
-
-
     }
+
     logout() {
-
-
         this._user.set(null);
         this._token.set(null);
-        this._authStatus.set('not-authenticated')
-
-        //tarea
+        this._authStatus.set('not-authenticated');
         localStorage.removeItem('tokenEco');
-        // limpiar cache
         this.statusCache.clear();
-        this.router.navigateByUrl('/auth/login');
 
+        // Aquí sí navegas porque es acción explícita del usuario
+        this.router.navigateByUrl('/auth/login');
     }
 
-*/
-
-
-checkStatus(): Observable<boolean> {
-  const token = localStorage.getItem('tokenEco');
-  if (!token) {
-    // Solo limpiar estado, NO navegar aquí
-    this._user.set(null);
-    this._token.set(null);
-    this._authStatus.set('not-authenticated');
-    this.statusCache.clear();
-    return of(false);
-  }
-
-  const key = token;
-  if (this.statusCache.has(key)) {
-    return of(this.statusCache.get(key)!);
-  }
-
-  return this.http.get<AuthResponse>(`${baseUrl}/auth/check-status`).pipe(
-    map(resp => this.handleAuthSuccess(resp)),
-    tap(result => this.statusCache.set(key, result)),
-    catchError(err => {
-      // Solo limpiar estado, NO navegar aquí
-      this._user.set(null);
-      this._token.set(null);
-      this._authStatus.set('not-authenticated');
-      localStorage.removeItem('tokenEco');
-      this.statusCache.clear();
-      return of(false);
-    })
-  );
-}
-
-logout() {
-  this._user.set(null);
-  this._token.set(null);
-  this._authStatus.set('not-authenticated');
-  localStorage.removeItem('tokenEco');
-  this.statusCache.clear();
-
-  // Aquí sí navegas porque es acción explícita del usuario
-  this.router.navigateByUrl('/auth/login');
-}
-
-
-
-
-private handleAuthSuccess({ token, user }: AuthResponse) {
+    private handleAuthSuccess({ token, user }: AuthResponse) {
         this._user.set(user);
         this._authStatus.set('authenticated');
         this._token.set(token);
-
         localStorage.setItem('tokenEco', token);
-
-
-
         return true;
     }
 

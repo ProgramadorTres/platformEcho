@@ -7,7 +7,7 @@
                 <th scope="col">Cedula/nit</th>
                 <th scope="col">Telefono</th>
                 <th scope="col">Correo</th>
-                <th scope="col">Acciones</th>
+                @if (isAdmin()) {<th scope="col">Acciones</th>}
             </tr>
         </thead>
         <tbody>
@@ -18,9 +18,11 @@
                 </td>
                 <td data-label="Tipo ID">
                     @if( contractor.tipoIdentificacion.tipo_identificacion === 'Cédula de ciudadanía') {
-                        <span class="badge border border-primary text-primary">{{ contractor.tipoIdentificacion.tipo_identificacion }}</span>
+                    <span class="badge border border-primary text-primary">{{
+                        contractor.tipoIdentificacion.tipo_identificacion }}</span>
                     } @else if( contractor.tipoIdentificacion.tipo_identificacion ==='NIT') {
-                        <span class="badge border border-success text-success">{{ contractor.tipoIdentificacion.tipo_identificacion }}</span>
+                    <span class="badge border border-success text-success">{{
+                        contractor.tipoIdentificacion.tipo_identificacion }}</span>
                     }
                 </td>
                 <td data-label="Cedula/NIT" class="d-md-table-cell">
@@ -33,11 +35,22 @@
                     {{ contractor.email ? contractor.email : '-' }}
                 </td>
                 <td data-label="Acciones">
+                    @if (isAdmin()) {
                     <a [routerLink]="['/admin/contratistas', contractor.id_contratista]"
                         class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1 w-100-sm justify-content-center">
                         <i class="bi bi-pencil-square"></i>
                         <span>Editar</span>
                     </a>
+                    }
+                </td>
+            </tr>
+            }
+            @empty {
+            <tr>
+                <td colspan="7" class="text-center">
+                    <div class="alert alert-warning text-center">
+                        No se encontraron contratistas con los filtros aplicados.
+                    </div>
                 </td>
             </tr>
             }
