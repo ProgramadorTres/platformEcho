@@ -14,36 +14,29 @@ const baseUrl = environment.baseUrl;
 interface Options {
   limit?: number;
   offset?: number;
-
 }
 
 
 @Injectable({ providedIn: 'root' })
 
 export class ContratistaService {
-    private http = inject(HttpClient);
+  private http = inject(HttpClient);
 
-    // Servicio para traer todos los contratistas SIN opciones
-    getAllContratistas(): Observable<Contratista[]> {
-        return this.http.get<Contratista[]>(`${baseUrl}/contratistas`).pipe(
-           // tap(resp => console.log('Contratistas recibidos:', resp))
-        );
-    }
+  // Servicio para traer todos los contratistas SIN opciones
+  getAllContratistas(): Observable<Contratista[]> {
+    return this.http.get<Contratista[]>(`${baseUrl}/contratistas`).pipe(
+      // tap(resp => console.log('Contratistas recibidos:', resp))
+    );
+  }
 
-    getAllTiposDocumentos(): Observable<TipoDocumento[]> {
-        return this.http.get<TipoDocumento[]>(`${baseUrl}/tipos-identificaciones`).pipe(
-            tap(resp => console.log('tipos-identificaciones recibidos:', resp))
-        );
-    }
+  getAllTiposDocumentos(): Observable<TipoDocumento[]> {
+    return this.http.get<TipoDocumento[]>(`${baseUrl}/tipos-identificaciones`).pipe(
+      tap(resp => console.log('tipos-identificaciones recibidos:', resp))
+    );
+  }
 
-    getProducts(options: Options): Observable<ContratistasResponse> {
-      
-      //console.log("SE disparo!");
-      // ⬅️ CORRECCIÓN AQUÍ
-    //
+  getProducts(options: Options): Observable<ContratistasResponse> {
     const { limit = 10, offset = 0 } = options;
-   
-    
     return this.http.get<ContratistasResponse>(`${baseUrl}/contratistas`, {
       params: {
         limit,

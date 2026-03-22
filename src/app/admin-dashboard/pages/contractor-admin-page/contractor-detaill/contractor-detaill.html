@@ -6,22 +6,15 @@
         <h2 class="h4 fw-bold mb-3">Datos generales</h2>
 
         <label>Tipo de persona</label>
-        <ng-select formControlName="tipoPersona" 
-                   [items]="personTypesResource.value() ?? []" 
-                   bindLabel="tipo_persona"
-                   bindValue="tipo_persona" 
-                   placeholder="Buscar tipo persona..." 
-                   [clearable]="false">
+        <ng-select formControlName="tipoPersona" [items]="personTypesResource.value() ?? []" bindLabel="tipo_persona"
+            bindValue="tipo_persona" placeholder="Buscar tipo persona..." [clearable]="false">
         </ng-select>
         <form-error-label [control]="contractForm.get('tipoPersona')!" />
 
         <label>Tipo de identificación</label>
-        <ng-select formControlName="tipoIdentificacion" 
-                   [items]="typesDocResource.value() ?? []"
-                   bindLabel="tipo_identificacion" 
-                   bindValue="Id" 
-                   placeholder="Buscar tipo identificación..." 
-                   [clearable]="false">
+        <ng-select formControlName="tipoIdentificacion" [items]="typesDocResource.value() ?? []"
+            bindLabel="tipo_identificacion" bindValue="Id" placeholder="Buscar tipo identificación..."
+            [clearable]="false">
         </ng-select>
         <form-error-label [control]="contractForm.get('tipoIdentificacion')!" />
 
@@ -29,7 +22,8 @@
             <ng-container *ngIf="contractForm.get('tipoIdentificacion')?.value === 3; else defaultDoc">
                 <div class="col-md-8 col-12">
                     <label>Número de documento (NIT)</label>
-                    <input type="text" class="form-control border" formControlName="cedula_nit" [class.border-danger]="contractForm.get('cedula_nit')?.invalid && contractForm.get('cedula_nit')?.touched" />
+                    <input type="text" class="form-control border" formControlName="cedula_nit"
+                        [class.border-danger]="contractForm.get('cedula_nit')?.invalid && contractForm.get('cedula_nit')?.touched" />
                     <form-error-label [control]="contractForm.get('cedula_nit')!" />
                 </div>
                 <div class="col-md-4 col-12">
@@ -65,9 +59,9 @@
     </div>
 
     @if(wasSaved()) {
-    <div class="alert position-fixed bottom-0 end-0 m-4 fade show" 
-         [ngClass]="isError() ? 'alert-danger' : 'alert-success'"
-         style="width: 20rem; z-index: 1050; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+    <div class="alert position-fixed bottom-0 end-0 m-4 fade show"
+        [ngClass]="isError() ? 'alert-danger' : 'alert-success'"
+        style="width: 20rem; z-index: 1050; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div class="d-flex align-items-center">
             <i class="bi me-2" [class]="isError() ? 'bi-exclamation-triangle' : 'bi-check-circle'"></i>
             <span>{{ saveMessage() }}</span>
@@ -76,6 +70,7 @@
     }
 
     <div class="col-md-8 offset-md-2 d-flex justify-content-end mb-5">
+        <btn-home  [pathToGo]="'contratistas'" class="me-3"/>
         <button class="btn btn-primary px-4" type="submit">
             <i class="bi bi-save me-2"></i> Guardar Contratista
         </button>

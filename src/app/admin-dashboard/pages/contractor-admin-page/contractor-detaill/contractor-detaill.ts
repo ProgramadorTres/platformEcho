@@ -11,10 +11,11 @@ import { CommonModule } from '@angular/common';
 import { PersonTypesService } from 'src/app/person-types/services/person-types.service';
 
 import { map } from 'rxjs';
+import { BtnHome } from "@dashboard/components/btn-home/btn-home";
 
 @Component({
   selector: 'contractor-detaill',
-  imports: [FormErrorLabel, ReactiveFormsModule, FormErrorLabel, NgSelectModule, CommonModule],
+  imports: [FormErrorLabel, ReactiveFormsModule, FormErrorLabel, NgSelectModule, CommonModule, BtnHome],
   templateUrl: './contractor-detaill.html',
 })
 export class ContractorDetaill implements OnInit {
@@ -26,6 +27,7 @@ export class ContractorDetaill implements OnInit {
   private typeIdentificationsService = inject(TypeIdentificationsService);
   private typesPersonService = inject(PersonTypesService);
 
+  comeback = "contratistas";
   contractor = input.required<Contratista>();
   wasSaved = signal(false);
   isError = signal(false);

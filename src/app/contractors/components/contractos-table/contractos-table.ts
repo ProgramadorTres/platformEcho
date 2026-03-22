@@ -13,8 +13,6 @@ import { AuthService } from '@auth/services/auth.service';
 export class ContractosTable { 
   contractors = input.required<Contratista[]>();
   paginationService = inject(PaginationService);
-  isHovered: any;
-  product: any;
 
   private authService = inject(AuthService);
   public isAdmin = this.authService.isAdmin;

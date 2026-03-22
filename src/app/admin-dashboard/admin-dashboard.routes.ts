@@ -7,6 +7,7 @@ import { Contractors } from "./pages/contractors-admin-page/contractors";
 import { ContractorAdminPage } from "./pages/contractor-admin-page/contractor-admin-page";
 import { OrganizationsAdminPage } from "./pages/organizations-admin-page/organizations-admin-page";
 import { OrganizationAdminPage } from "./pages/organization-admin-page/organization-admin-page";
+import { ProjectsContractsAdminPage } from "./pages/projects-contracts-admin-page/projects-contracts-admin-page";
 
 
 export const adminDashboardRoutes: Routes = [
@@ -30,6 +31,10 @@ export const adminDashboardRoutes: Routes = [
             {
                 path: 'organizaciones/:id',
                 component: OrganizationAdminPage
+            },
+            {
+                path: 'contratos',
+                component: ProjectsContractsAdminPage
             },
             {
                 path: '**',

@@ -13,7 +13,6 @@ export class CountriesOrganizationsService {
 
   private http = inject(HttpClient);
 
-
   getAllorgCountries(): Observable<Countries[]> {
     return this.http.get<Countries[]>(`${baseUrl}/paises-organizaciones`).pipe(
       tap(resp => console.log('paises-organizaciones aqui:', resp))

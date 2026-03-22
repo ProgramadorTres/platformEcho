@@ -1,0 +1,104 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="d-flex gap-2">
+    <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+        <i class="bi bi-layout-three-columns me-1"></i> Mostrar columnas
+      </button>
+      
+      <div class="dropdown-menu p-2 shadow-lg" style="width: 320px; max-height: 450px; overflow-y: auto; overflow-x: hidden;">
+        <div class="accordion accordion-flush" id="colAcc">
+          @for(group of columnGroups; track group.name; let i = $index) {
+            <div class="accordion-item">
+              <h2 class="accordion-header d-flex align-items-center">
+                <input class="form-check-input ms-2" type="checkbox" 
+                       [checked]="isGroupFull(group)" 
+                       [indeterminate]="isGroupPartial(group)"
+                       (change)="toggleGroup(group, $event)">
+                <button class="accordion-button collapsed py-2 small fw-bold text-primary" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#c' + i">
+                  {{ group.name }}
+                </button>
+              </h2>
+              <div [id]="'c' + i" class="accordion-collapse collapse" data-bs-parent="#colAcc">
+                <div class="accordion-body py-1 ms-3">
+                  @for(col of group.columns; track col.key) {
+                    <div class="form-check my-1">
+                      <input class="form-check-input" type="checkbox" [id]="col.key" 
+                             [checked]="isColumnVisible(col.key)" 
+                             (change)="toggleColumn(col.key)">
+                      <label class="form-check-label small text-truncate" style="max-width: 200px;" [for]="col.key">
+                        {{ col.label }}
+                      </label>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        
+        <div class="d-grid mt-2 pt-2 border-top">
+          <button class="btn btn-sm btn-light text-danger" (click)="resetColumns()">
+            <i class="bi bi-arrow-counterclockwise me-1"></i> Restablecer predeterminados
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="exportToExcel()" class="btn btn-success btn-sm">
+      <i class="bi bi-file-earmark-excel me-1"></i> Excel
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive border rounded shadow-sm">
+  <table class="table align-middle table-striped table-hover mb-0">
+    <thead class="table-light">
+      <tr>
+        @for(col of renderedColumns; track col.key) {
+          <th class="small text-uppercase fw-bold text-secondary" 
+              [style.width]="col.key === 'objeto' ? '40%': 'auto'">
+            {{ col.label }}
+          </th>
+        }
+        @if (isAdmin()) { <th class="small text-uppercase fw-bold text-secondary text-center" style="width: 80px;">Acciones</th> }
+      </tr>
+    </thead>
+    <tbody>
+      @for(contractor of contractors(); track contractor.id_proyecto_contrat) {
+        <tr>
+          @for(col of renderedColumns; track col.key) {
+            <td [class]="col.class || ''" class="small">
+              @let value = getNestedValue(contractor, col.key);
+
+              @switch (col.pipe) {
+                @case ('currency') { {{ value | currency }} }
+                @case ('date') { <span class="text-nowrap">{{ value | date:'dd/MM/yyyy' }}</span> }
+                @case ('lowercase') { 
+                  <div [style.max-width]="col.key === 'objeto' ? '500px' : 'none'" 
+                       style="white-space: normal; word-break: break-word; line-height: 1.4;">
+                    {{ stripHtml(value) | lowercase }}
+                  </div>
+                }
+                @default {
+                  @if (isObject(value)) {
+                    {{ value?.nombre || value?.nombreProyecto || '-' }}
+                  } @else {
+                    <div [style.max-width]="col.key === 'objeto' ? '400px' : 'none'"
+                         style="white-space: normal; word-break: break-word;">
+                      {{ (value && value.toString().includes('<')) ? stripHtml(value) : (value ?? '-') }}
+                    </div>
+                  }
+                }
+              }
+            </td>
+          }
+          @if (isAdmin()) {
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-secondary border-0"><i class="bi bi-pencil-square"></i></button>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

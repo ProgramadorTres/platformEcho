@@ -11,15 +11,17 @@ import { NacionalityOrganizationsServiceTs } from 'src/app/nacionality-organizat
 import { OrganizationsTypesServiceTs } from 'src/app/organizations-types/services/organizations-types.service.ts';
 import { NacionalidadOrganizacione, Organization, PaisesOrganizacion, TiposOrganizacione, VersionRow } from 'src/app/organizations/interfaces/organizations.interface';
 import { OrganizationService } from 'src/app/organizations/services/organizations';
+import { BtnHome } from "@dashboard/components/btn-home/btn-home";
 
 @Component({
   selector: 'organization-detaill',
-  imports: [FormErrorLabel, ReactiveFormsModule, NgSelectModule, CommonModule],
+  imports: [FormErrorLabel, ReactiveFormsModule, NgSelectModule, CommonModule, BtnHome],
   templateUrl: './organization-detaill.html',
+  styleUrls: ['./organization-detaill.css'] 
 })
 export class OrganizationDetaill implements OnInit {
   
-
+  //ejemplo
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);

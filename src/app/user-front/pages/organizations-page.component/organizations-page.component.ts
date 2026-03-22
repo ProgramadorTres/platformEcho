@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { PaginationComponentComponent } from '@shared/components/pagination-component/pagination-component.component';
 import { PaginationService } from '@shared/components/pagination-component/pagination.service';
 import { OrganizationsSearch } from 'src/app/organizations/components/organizations-search/organizations-search';
@@ -9,7 +10,7 @@ import { OrganizationService } from 'src/app/organizations/services/organization
 
 @Component({
   selector: 'app-organizations-page.component',
-  imports: [ PaginationComponentComponent, OrganizationsTable, RouterLink, OrganizationsSearch ],
+  imports: [ PaginationComponentComponent, OrganizationsTable, OrganizationsSearch ],
   templateUrl: './organizations-page.component.html',
 })
 export class OrganizationsPageComponent { 

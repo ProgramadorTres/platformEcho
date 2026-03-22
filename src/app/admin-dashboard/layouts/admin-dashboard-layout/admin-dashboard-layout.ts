@@ -1,14 +1,14 @@
 import { style } from '@angular/animations';
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '@auth/services/auth.service';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { TopMenu } from '@dashboard/components/top-menu/top-menu';
 import { MenuOption } from '@dashboard/interfaces/admin-menu-option.interface';
 
+import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'app-admin-dashboard-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, TopMenu],
+  imports: [RouterOutlet, RouterLink, TopMenu],
   templateUrl: './admin-dashboard-layout.html',
   styleUrl: './admin-dashboard-layout.css'
 })

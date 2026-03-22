@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@auth/services/auth.service';
 import { TopMenu } from "../../components/user-front-top-menu/top-menu";
@@ -8,7 +8,7 @@ import { MenuOption } from "../../interfaces/user-menu.interface";
 
 @Component({
   selector: 'app-user-front',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TopMenu],
+  imports: [CommonModule, RouterOutlet, RouterLink, TopMenu],
   templateUrl: './user-front.html',
    styleUrl: './user-front.css'
 })

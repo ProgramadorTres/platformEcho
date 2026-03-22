@@ -17,6 +17,7 @@
             <!-- row 1 -->
             @for(organization of organizations();track organization.no_organizacion) {
             <tr>
+                
                 <td>
                     {{organization.no_organizacion}}
                 </td>
@@ -38,10 +39,10 @@
                     </span>
                 </td>
                 <td>
-                    {{ organization.TiposOrganizacione?.['tipo_organización'] ?? '-' | capitalize }}
+                   {{ organization.TiposOrganizacione['tipo_organización']  | capitalize }}
                 </td>
                 <td>
-                    {{ organization.paisesOrganizacion?.['país_organización'] ?? '-' | capitalize }}
+                    {{ organization.paisesOrganizacion['país_organización']  | capitalize }}
                 </td>
                 @if (isAdmin()) {
                 <td>

@@ -8,53 +8,77 @@
 </h3>
 
 @if (organizationsResource.error()) {
-  <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
-    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-    <div>Error al cargar organizaciones</div>
-  </div>
+<div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+  <i class="bi bi-exclamation-triangle-fill me-2"></i>
+  <div>Error al cargar organizaciones</div>
+</div>
 } @else {
 
-  <div class="row mt-4 mb-3">
-    <div class="col-12">
-      <div class="toolbar d-flex align-items-center justify-content-between">
+<div class="row mt-4 mb-3">
+  <div class="col-12">
+    <div class="toolbar d-flex align-items-center justify-content-between">
 
-        <div class="d-flex align-items-center gap-3">
-          <!-- PAGINACIÓN -->
-          <app-pagination
-            [pages]="organizationsResource.value()?.pages ?? 0"
-            [currentPage]="paginationService.currentPage()">
-          </app-pagination>
+      <div class="d-flex align-items-center gap-3">
+        <!-- PAGINACIÓN -->
+        <app-pagination [pages]="organizationsResource.value()?.pages ?? 0"
+          [currentPage]="paginationService.currentPage()">
+        </app-pagination>
 
 
-          <select
-            #selectPerPage
-            (change)="organizationsPerPage.set(+selectPerPage.value)"
-            class="form-select form-select-sm per-page-select   " style="margin-top: -.8rem ;">
-            <option value="10">10 por página</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        </div>
-
-        <button
-          routerLink="/admin/organizaciones/new"
-          class="btn btn-primary new-btn d-flex align-items-center gap-2  "  style="margin-top: -.8rem ;">
-          <i class="bi bi-plus-circle"></i>
-          <span>Nueva organización</span>
-        </button>
+        <select #selectPerPage (change)="organizationsPerPage.set(+selectPerPage.value)"
+          class="form-select form-select-sm per-page-select   " style="margin-top: -.8rem ;">
+          <option value="10">10 por página</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
 
       </div>
+
+      <div class="d-flex align-items-center gap-2 ">
+
+        <div class="filter-select " style="margin-top: -.8rem ;">
+          <ng-select formControlName="nacionalidad_organización" [items]="orgNationalitiesResource.value() ?? []"
+            bindLabel="nacionalidad_org" bindValue="nacionalidad_org" placeholder="Filtro Nacionalidad"
+            (change)="onNationalityChange($event)">
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2 ">
+        <div class="filter-select " style="margin-top: -.8rem ;">
+          <ng-select formControlName="tipo_organización" [items]="organizationsTypesResource.value() ?? []"
+            bindLabel="tipo_organización" bindValue="tipo_organización" placeholder="Filtro T.organización"
+            (change)="onOrgTypeChange($event)">
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2 ">
+        <div class="filter-select " style="margin-top: -.8rem ;">
+          <ng-select formControlName="list_countries" [items]="countriesResource.value() ?? []"
+            bindLabel="país_organización" bindValue="país_organización" placeholder="Filtro Pais"
+            (change)="onCountryChange($event)">
+          </ng-select>
+        </div>
+      </div>
+
+      <button routerLink="/admin/organizaciones/new" class="btn btn-primary new-btn d-flex align-items-center gap-2  "
+        style="margin-top: -.8rem ;">
+        <i class="bi bi-plus-circle"></i>
+        <span>Nueva organización</span>
+      </button>
+
     </div>
   </div>
+</div>
 
-  <div class="mb-4">
-    <organizations-search (search)="onSearch($event)"></organizations-search>
-  </div>
+<div class="mb-4">
+  <organizations-search (search)="onSearch($event)"></organizations-search>
+</div>
 
-  <div class="table-responsive shadow-sm rounded border">
-    <organizations-table
-      [organizations]="filteredOrganizations()">
-    </organizations-table>
-  </div>
+<div class="table-responsive shadow-sm rounded border">
+  <organizations-table [organizations]="filteredOrganizations()"/>
+ 
+</div>
 }

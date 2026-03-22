@@ -2,12 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
-import { Options } from '@shared/interfaces/paginator-options';
+import { Options } from '../interfaces/organizations-options';
 import { Observable, of, tap } from 'rxjs';
 import { Organization, OrganizationsResponse } from '../interfaces/organizations.interface';
+//aqui
+import { OrganizationOptions } from '../interfaces/organizations-filters';
+import { HttpUtils } from '@shared/utils/http-params.util';
+
+
+
 const baseUrl = environment.baseUrl;
 
 export const emptyOrganization: Organization = {
+
+
+
+
   no_organizacion: 0,
   id_organización: '',
   nombre_organización: '',
@@ -62,25 +72,56 @@ export class OrganizationService {
 
   private organizationCache = new Map<number, Organization>();
 
-  getOrganizations(options: Options): Observable<OrganizationsResponse> {
-    const { limit = 10, offset = 0, search = '' } = options;
 
-    const key = `${limit}-${offset}-${search || 'all'}`; // string key
+
+  //servicio organizaciones
+  //cache   pilas con el cache AQUI
+  /*
+  getOrganizations(options: Options): Observable<OrganizationsResponse> {
+    const { limit = 10, offset = 0, search = '', nationality = '', organizationType = '', country = '' } = options;
+
+    // Incluir nationality en la clave
+    const key = `${limit}-${offset}-${search || 'all'}-${nationality || 'all'}-${organizationType || 'all'}-${country || 'all'}`;
 
     if (this.organizationsCache.has(key)) {
+      console.log('Usando caché para:', key);
       return of(this.organizationsCache.get(key)!);
     }
 
     const params: any = { limit, offset };
     if (search) params.search = search;
+    if (nationality) params.nationality = nationality;
+    if (organizationType) params.organizationType = organizationType;
+    if (country) params.country = country;
+
+    console.log('Haciendo petición HTTP con:', { params, key });
 
     return this.http.get<OrganizationsResponse>(`${baseUrl}/organizaciones/paginator`, { params })
       .pipe(
         tap((resp) => {
+          console.log('Guardando en caché:', key);
           this.organizationsCache.set(key, resp);
         })
       );
+  }*/
+
+  getOrganizations(options: OrganizationOptions): Observable<OrganizationsResponse> {
+    // 1. Llave de caché inteligente basada en el objeto de filtros
+    const cacheKey = JSON.stringify(options);
+
+    if (this.organizationsCache.has(cacheKey)) {
+      return of(this.organizationsCache.get(cacheKey)!);
+    }
+
+    // 2. Construcción automática de parámetros
+    const params = HttpUtils.buildParams(options);
+
+    return this.http.get<OrganizationsResponse>(`${baseUrl}/organizaciones/paginator`, { params })
+      .pipe(
+        tap(resp => this.organizationsCache.set(cacheKey, resp))
+      );
   }
+
 
   getCrganizationsById(id: number | 'new'): Observable<Organization> {
     if (id === 'new') {

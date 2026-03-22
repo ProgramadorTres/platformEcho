@@ -54,6 +54,41 @@ organizations-search {
 
 @media (min-width: 768px) {
     .ajuste-superior-md {
-        margin-top: -0.8rem !important;
+        margin-top: -2rem !important;
+    }
+}
+
+.filter-select {
+  min-width: 200px; /* ajusta el ancho */
+}
+
+.filter-select ng-select {
+  width: 100%;
+}
+
+.filter-select .ng-select-container {
+  min-height: 32px !important; /* igual al select-sm */
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+}
+
+
+/* Ajuste para que el ng-select combine con el diseño de Bootstrap */
+.custom-ng-select ::ng-deep .ng-select-container {
+    border-radius: 0.375rem; /* Redondeado estándar de BS5 */
+    min-height: 38px; /* Altura estándar de inputs */
+    border-color: #dee2e6;
+}
+
+.custom-ng-select ::ng-deep .ng-placeholder {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+/* Evita que los filtros se peguen en móvil */
+@media (max-width: 576px) {
+    .btn-primary {
+        margin-top: 10px;
     }
 }
