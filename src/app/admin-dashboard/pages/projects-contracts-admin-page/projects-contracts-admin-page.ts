@@ -37,11 +37,9 @@ export class ProjectsContractsAdminPage {
     },
   });
 
-  filteredProducts = computed(() => this.contractorssResource.value()?.contratos ?? []);
+  filteredContracts = computed(() => this.contractorssResource.value()?.contratos ?? []);
 
   onSearch(term: string) {
-    console.log("Entra aqui");
-    
     const cleanTerm = term ? term : '';
     this.searchContractor.set(cleanTerm);
     this.router.navigate([], {

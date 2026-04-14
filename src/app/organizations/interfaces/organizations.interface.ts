@@ -31,7 +31,7 @@ export interface Organization {
 
 export interface TiposOrganizacione {
     ID:                  number;
-    tipo_organización:   string;
+    tipo_organización:   string | null;
     tipo_org_breve:      string;
     id_pob_beneficiaria: null;
 }
@@ -42,7 +42,7 @@ export interface NacionalidadOrganizacione {
 
 export interface PaisesOrganizacion {
     id_pais:           number;
-    país_organización: string;
+    país_organización: string | null;
 }
 
 export interface VersionRow {
@@ -55,3 +55,5 @@ export interface OrganizationsResponse {
   pages: number;
   organizaciones: Organization[]; // Este es el nombre clave
 }
+
+//ProjectsContracts

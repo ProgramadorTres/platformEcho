@@ -17,7 +17,8 @@ export class BtnHome {
   paths = {
     'contratistas': `${this.basePath}/contratistas`,
     'home': `${this.basePath}`,
-    'organizaciones': `${this.basePath}/organizaciones`,  
+    'organizaciones': `${this.basePath}/organizaciones`, 
+    'contratos': `${this.basePath}/contratos`,  
   }
   goHome = this.paths['home'];
   volver() {

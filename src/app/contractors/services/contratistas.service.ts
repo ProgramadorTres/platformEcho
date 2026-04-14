@@ -3,12 +3,9 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { Contratista } from '../interfaces/contratista.interface';
+import { Contratistaa } from '../interfaces/contratista.interface';
 import { TipoDocumento } from '../interfaces/tipoDocumento.interface';
 import { ContratistasResponse } from '../interfaces/contratistasResponse.interface';
-
-//import { TipoDocumento } from '../interfaces/tipoDocumento.interface';
-//import { ContratistasResponse } from '../interfaces/contratistasResponse.interface';
 
 const baseUrl = environment.baseUrl;
 interface Options {
@@ -23,8 +20,8 @@ export class ContratistaService {
   private http = inject(HttpClient);
 
   // Servicio para traer todos los contratistas SIN opciones
-  getAllContratistas(): Observable<Contratista[]> {
-    return this.http.get<Contratista[]>(`${baseUrl}/contratistas`).pipe(
+  getAllContratistas(): Observable<Contratistaa[]> {
+    return this.http.get<Contratistaa[]>(`${baseUrl}/contratistas`).pipe(
       // tap(resp => console.log('Contratistas recibidos:', resp))
     );
   }

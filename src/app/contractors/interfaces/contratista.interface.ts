@@ -1,4 +1,4 @@
-export interface Contratista {
+export interface Contratistaa {
   id_contratista: number ;
   tipo_persona: string;
   tipoIdentificacion: TipoIdentificacion;
@@ -35,4 +35,4 @@ export interface TipoIdentificacion {
   tipo_identificacion: TipoIdentificacionType;
 }
 
-
+export type Contratista = Contratistaa;

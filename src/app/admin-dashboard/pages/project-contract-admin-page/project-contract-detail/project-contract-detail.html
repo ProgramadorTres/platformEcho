@@ -1,0 +1,174 @@
+<div class="main-page-background py-5">
+    <div class="form-container-limited mx-auto">
+        <form [formGroup]="contractForm"  (ngSubmit)="onProjectContractSubmit()"   class="position-relative">
+            <div class="timeline-vertical-line d-none d-lg-block"></div>
+            <div class="d-flex flex-column gap-4 timeline-content-padding">
+
+                <div class="header-card shadow-sm mb-2">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="header-icon-box">
+                                <i class="bi bi-building-fill-add"></i>
+                            </div>
+                            <div>
+                                <h1 class="header-main-title">{{ infoContractMod.title }}</h1>
+                                <p class="header-subtitle">{{ infoContractMod.subtitle }}</p>
+                            </div>
+                        </div>
+                        <div class="header-tag">
+                            <i class="bi bi-info-circle me-1"></i> {{ infoContractMod.modulo_name }}
+                        </div>
+                    </div>
+                </div>
+
+                <section class="floating-card shadow-sm">
+                    <div class="card-header-custom">
+                        <span class="step-indicator step-primary">1</span>
+                        <h5>Información contrato</h5>
+                    </div>
+                    <div class="card-body-custom">
+                        <div class="row g-4">
+
+                            <div class="col-lg-4 d-flex align-items-center">
+                                <div class="form-check mt-lg-4">
+                                    <input type="checkbox" class="form-check-input" id="contrato_anulado"
+                                        formControlName="contrato_anulado">
+                                    <label class="form-check-label ms-2" for="contrato_anulado">Contrato anulado</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4" formGroupName="responsableDigitacion">
+                                <label class="label-custom">Responsable digitación</label>
+                                <ng-select [items]="responsableMinutaResource.value() ?? []" bindLabel="responsable"
+                                    bindValue="id_responsable" formControlName="id_responsable"
+                                    placeholder="Seleccione responsable digitacion">
+                                </ng-select>
+                                <form-error-label
+                                    [control]="contractForm.get('responsableDigitacion.id_responsable')!" />
+                            </div>
+
+                            <div class="col-lg-4" formGroupName="responsableMinuta">
+                                <label class="label-custom">Responsable minuta</label>
+                                <ng-select [items]="responsableMinutaResource.value() ?? []" bindLabel="responsable"
+                                    bindValue="id_responsable" formControlName="id_responsable"
+                                    placeholder="Seleccione responsable minuta">
+                                </ng-select>
+                                <form-error-label [control]="contractForm.get('responsableMinuta.id_responsable')!" />
+                            </div>
+
+                            <div class="col-lg-7">
+                                <div class="row g-4">
+                                    <div class="col-12" formGroupName="Pid">
+                                        <label class="label-custom">Pid</label>
+                                        <ng-select [items]="pidResource.value() ?? []" bindLabel="PID"
+                                            bindValue="id_PID" formControlName="id_PID" placeholder="Seleccione pid">
+                                        </ng-select>
+                                        <form-error-label [control]="contractForm.get('Pid.id_PID')!" />
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="label-custom">Número de Contrato *</label>
+                                        <input type="text" class="input-custom" formControlName="numero_contrato"
+                                            [readonly]="contractForm.get('id_proyecto_contrat')?.value" />
+                                        <form-error-label [control]="contractForm.get('numero_contrato')!" />
+                                    </div>
+
+                                    <div class="col-12" formGroupName="tipoContrato">
+                                        <label class="label-custom">Tipo de contrato</label>
+                                        <ng-select [items]="contractTypeResource.value() ?? []"
+                                            bindLabel="tipo_contrato" bindValue="ID" formControlName="ID"
+                                            placeholder="Seleccione tipo de contrato">
+                                        </ng-select>
+                                        <form-error-label [control]="contractForm.get('tipoContrato.ID')!" />
+                                    </div>
+
+                                    <div class="col-12" formGroupName="contratista">
+                                        <label class="label-custom">Contratista</label>
+                                        <ng-select [items]="contractResource.value() ?? []" bindLabel="nombre"
+                                            bindValue="id_contratista" formControlName="id_contratista"
+                                            placeholder="Seleccione contratista">
+                                        </ng-select>
+                                        <form-error-label [control]="contractForm.get('contratista.id_contratista')!" />
+                                    </div>
+
+                                    @if (contractForm.get('id_proyecto_contrat')?.value) {
+                                    <div class="col-lg-6" formGroupName="contratista">
+                                        <label class="label-custom">Cédula / NIT</label>
+                                        <input type="text" class="input-custom" formControlName="cedula_nit" readonly>
+                                    </div>
+                                    <div class="col-lg-6" formGroupName="contratista">
+                                        <label class="label-custom">Email</label>
+                                        <input type="email" class="input-custom" formControlName="email" readonly>
+                                    </div>
+                                    }
+
+                                    <div class="col-lg-12">
+                                        <label class="label-custom">Valor *</label>
+                                        <input type="number" class="input-custom" formControlName="valor"
+                                            (keypress)="validarSoloNumeros($event)" />
+                                        <form-error-label [control]="contractForm.get('valor')!" />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <label class="label-custom">ARL</label>
+                                        <input type="text" class="input-custom" formControlName="ARL" maxlength="255" />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <label class="label-custom">Riesgo (1-5)</label>
+                                        <input type="number" class="input-custom" formControlName="Riesgo" min="1"
+                                            max="5" step="1" (keypress)="validarSoloNumeros($event)"
+                                            (keydown)="preventInvalidChars($event)" />
+                                        <form-error-label [control]="contractForm.get('Riesgo')!" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5">
+                                <div class="row g-4">
+                                    <div class="col-12">
+                                        <label class="label-custom">Desembolsos</label>
+                                        <textarea class="input-custom" formControlName="desembolsos" rows="9"
+                                            placeholder="Información de desembolsos"></textarea>
+                                        <form-error-label [control]="contractForm.get('desembolsos')!" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="label-custom">Objeto del Contrato *</label>
+                                <textarea class="input-custom" formControlName="objeto" rows="3"
+                                    placeholder="Describa el objeto del contrato"></textarea>
+                                <form-error-label [control]="contractForm.get('objeto')!" />
+                            </div>
+
+                            <div class="col-12">
+                                <label class="label-custom">Actividades y Funciones</label>
+                                <textarea class="input-custom" formControlName="actividades_funciones" rows="8"
+                                    placeholder="Detalle las actividades o funciones"></textarea>
+                                <form-error-label [control]="contractForm.get('actividades_funciones')!" />
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+
+                <div class="d-flex justify-content-end align-items-center gap-3 mt-2 mb-5 pe-2">
+                    @if(wasSaved()){
+                    <div class="status-saved">
+                        <i class="bi bi-cloud-check-fill me-2"></i> {{ saveMessage() }}
+                    </div>
+                    }
+                    <div class="d-flex gap-2">
+                        <btn-home [pathToGo]="'contratos'" class="btn-square-alt" />
+                        <button class="btn-square-primary shadow-sm" type="submit">
+                            <i class="bi bi-save2 me-2"></i> GUARDAR CONTRATO
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

@@ -20,8 +20,7 @@ import { BtnHome } from "@dashboard/components/btn-home/btn-home";
   styleUrls: ['./organization-detaill.css'] 
 })
 export class OrganizationDetaill implements OnInit {
-  
-  //ejemplo
+
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);

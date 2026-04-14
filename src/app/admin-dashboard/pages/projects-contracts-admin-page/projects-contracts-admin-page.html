@@ -30,10 +30,10 @@
         </div>
 
         <div class="ms-md-auto">
-          <button routerLink="/admin/contratistas/new" 
+          <button routerLink="/admin/contratos/new" 
             class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
             style="height: 2.5rem; white-space: nowrap; margin-top: -.8rem ;" >
-            <span>Nuevo contratista</span>
+            <span>Nuevo contrato</span>
           </button>
         </div>
 
@@ -46,7 +46,6 @@
   </div>
   
   <div class="table-responsive shadow-sm rounded border">
-     <projects-contracts-table [contractors]="filteredProducts()" />
-    
+     <projects-contracts-table [contractors]="filteredContracts()" />
   </div>
 }

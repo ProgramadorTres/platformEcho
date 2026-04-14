@@ -3,14 +3,15 @@ import { inject, Injectable } from '@angular/core';
 import { delay, Observable, of, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { Contratista, TipoIdentificacion } from '../interfaces/contratista.interface';
+import { Contratistaa, TipoIdentificacion } from '../interfaces/contratista.interface';
 import { TipoDocumento } from '../interfaces/tipoDocumento.interface';
 import { ContratistasResponse } from '../interfaces/contratistasResponse.interface';
 import { Options } from '@shared/interfaces/paginator-options';
+import { ContractorList } from '../interfaces/contractor-list';
 
 const baseUrl = environment.baseUrl;
 
-const emptyContratista: Contratista = {
+const emptyContratista: Contratistaa = {
   id_contratista: 0,
   tipo_persona: '',
   tipoIdentificacion: {} as TipoIdentificacion,
@@ -41,7 +42,7 @@ export class ContratistaService {
 
   private contractorsCache = new Map<string, ContratistasResponse>();
 
-  private contractorCache = new Map<number, Contratista>();
+  private contractorCache = new Map<number, Contratistaa>();
 
   getContractors(options: Options): Observable<ContratistasResponse> {
     const { limit = 10, offset = 0, search = '' } = options;
@@ -63,8 +64,13 @@ export class ContratistaService {
       );
   }
 
-  getAllContratistas(): Observable<Contratista[]> {
-    return this.http.get<Contratista[]>(`${baseUrl}/contratistas`);
+  getAllContratistas(): Observable<Contratistaa[]> {
+    return this.http.get<Contratistaa[]>(`${baseUrl}/contratistas`);
+  }
+
+
+  getAllContratistasList(): Observable<ContractorList[]> {
+    return this.http.get<ContractorList[]>(`${baseUrl}/contratistas/list`);
   }
 
   getAllTiposDocumentos(): Observable<TipoDocumento[]> {
@@ -72,7 +78,7 @@ export class ContratistaService {
       .pipe(tap(resp => console.log('Tipos recibidos:', resp)));
   }
 
-  getContratistaById(id: number | 'new'): Observable<Contratista> {
+  getContratistaById(id: number | 'new'): Observable<Contratistaa> {
     if (id === 'new') {
       return of(emptyContratista);
     }
@@ -83,40 +89,35 @@ export class ContratistaService {
       return of(this.contractorCache.get(id)!);
     }
 
-    return this.http.get<Contratista>(`${baseUrl}/contratistas/${id}`)
+    return this.http.get<Contratistaa>(`${baseUrl}/contratistas/${id}`)
       .pipe(
         //delay(150),
-
-
         tap((contratista) => {
           console.log(`contratista   ${contratista.nombre}`);
-
           this.contractorCache.set(contratista.id_contratista, contratista)
         }
-
-
         ));
   }
 
-  createContratista(contratistaLike: Partial<Contratista>): Observable<Contratista> {
+  createContratista(contratistaLike: Partial<Contratistaa>): Observable<Contratistaa> {
 
     console.log("contratista a cerar ", contratistaLike);
 
 
-    return this.http.post<Contratista>(`${baseUrl}/contratistas/`, contratistaLike)
+    return this.http.post<Contratistaa>(`${baseUrl}/contratistas/`, contratistaLike)
       .pipe(
         tap((contratista) => this.updateContractorCache(contratista))
       );
   }
 
-  updateContratista(id: number, contratistaLike: Partial<Contratista>): Observable<Contratista> {
-    return this.http.patch<Contratista>(`${baseUrl}/contratistas/${id}`, contratistaLike)
+  updateContratista(id: number, contratistaLike: Partial<Contratistaa>): Observable<Contratistaa> {
+    return this.http.patch<Contratistaa>(`${baseUrl}/contratistas/${id}`, contratistaLike)
       .pipe(
         tap((contratista) => this.updateContractorCache(contratista))
       );
   }
 
-  private updateContractorCache(contratista: Contratista) {
+  private updateContractorCache(contratista: Contratistaa) {
     const contractorId = contratista.id_contratista;
     this.contractorCache.set(contractorId, contratista);
 

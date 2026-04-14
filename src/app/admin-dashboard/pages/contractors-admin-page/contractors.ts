@@ -5,7 +5,6 @@ import { Router, RouterLink } from '@angular/router';
 import { PaginationComponentComponent } from '@shared/components/pagination-component/pagination-component.component';
 import { PaginationService } from '@shared/components/pagination-component/pagination.service';
 import { ContratistaService } from 'src/app/contractors/services/contratista.service';
-import { Contratista } from 'src/app/contractors/interfaces/contratista.interface';
 import { ContractosTable } from "src/app/contractors/components/contractos-table/contractos-table";
 import { ContractorsSearch } from 'src/app/contractors/components/contractors-search/contractors-search';
 

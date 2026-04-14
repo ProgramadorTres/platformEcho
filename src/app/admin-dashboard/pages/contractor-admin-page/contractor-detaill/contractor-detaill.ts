@@ -2,7 +2,7 @@ import { Component, effect, inject, input, OnInit, signal } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Contratista } from 'src/app/contractors/interfaces/contratista.interface';
+import { Contratistaa } from 'src/app/contractors/interfaces/contratista.interface';
 import { ContratistaService } from 'src/app/contractors/services/contratista.service';
 import { FormErrorLabel } from "@shared/components/form-error-label/form-error-label";
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
@@ -28,7 +28,7 @@ export class ContractorDetaill implements OnInit {
   private typesPersonService = inject(PersonTypesService);
 
   comeback = "contratistas";
-  contractor = input.required<Contratista>();
+  contractor = input.required<Contratistaa>();
   wasSaved = signal(false);
   isError = signal(false);
   saveMessage = signal('');
@@ -64,7 +64,7 @@ export class ContractorDetaill implements OnInit {
     }
   }
 
-  setFormValue(data: Partial<Contratista>) {
+  setFormValue(data: Partial<Contratistaa>) {
     this.contractForm.patchValue({
       ...data,
       tipoIdentificacion: data.tipoIdentificacion?.Id ?? null,

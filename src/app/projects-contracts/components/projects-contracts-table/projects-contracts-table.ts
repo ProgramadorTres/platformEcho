@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import { LowerCasePipe, CurrencyPipe, DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Contrato } from '../../interfaces/projects-contracts.interface';
+import { RouterLink } from '@angular/router';
 
 interface TableColumn {
   key: string;
@@ -20,7 +21,7 @@ interface ColumnGroup {
 @Component({
   selector: 'projects-contracts-table',
   standalone: true,
-  imports: [CommonModule, LowerCasePipe, CurrencyPipe, DatePipe, FormsModule],
+  imports: [CommonModule, LowerCasePipe, CurrencyPipe, DatePipe, FormsModule,RouterLink],
   templateUrl: './projects-contracts-table.html',
 })
 export class ProjectsContractsTable {
