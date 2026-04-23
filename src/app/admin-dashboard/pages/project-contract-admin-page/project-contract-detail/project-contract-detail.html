@@ -1,6 +1,6 @@
 <div class="main-page-background py-5">
     <div class="form-container-limited mx-auto">
-        <form [formGroup]="contractForm"  (ngSubmit)="onProjectContractSubmit()"   class="position-relative">
+        <form [formGroup]="contractForm" (ngSubmit)="onProjectContractSubmit()" class="position-relative">
             <div class="timeline-vertical-line d-none d-lg-block"></div>
             <div class="d-flex flex-column gap-4 timeline-content-padding">
 
@@ -58,6 +58,14 @@
 
                             <div class="col-lg-7">
                                 <div class="row g-4">
+                                    <div class="col-12" formGroupName="proyecto">
+                                        <label class="label-custom">Proyecto</label>
+                                        <ng-select [items]="projectsResource.value() ?? []" bindLabel="proyecto"
+                                            bindValue="id_proyecto" formControlName="id_proyecto"
+                                            placeholder="Seleccione proyecto">
+                                        </ng-select>
+                                        <form-error-label [control]="contractForm.get('proyecto.id_proyecto')!" />
+                                    </div>
                                     <div class="col-12" formGroupName="Pid">
                                         <label class="label-custom">Pid</label>
                                         <ng-select [items]="pidResource.value() ?? []" bindLabel="PID"
@@ -121,19 +129,126 @@
                                             (keydown)="preventInvalidChars($event)" />
                                         <form-error-label [control]="contractForm.get('Riesgo')!" />
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="col-lg-5">
-                                <div class="row g-4">
-                                    <div class="col-12">
-                                        <label class="label-custom">Desembolsos</label>
-                                        <textarea class="input-custom" formControlName="desembolsos" rows="9"
-                                            placeholder="Información de desembolsos"></textarea>
-                                        <form-error-label [control]="contractForm.get('desembolsos')!" />
+                                    <div class="col-lg-12">
+                                        <label class="label-custom">Fecha de suscripción *</label>
+                                        <input type="date" class="input-custom" formControlName="fecha_suscripcion" />
+                                        <form-error-label [control]="contractForm.get('fecha_suscripcion')!" />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <label class="label-custom">Fecha de inicio *</label>
+                                        <input type="date" class="input-custom" formControlName="fecha_inicio" />
+                                        <form-error-label [control]="contractForm.get('fecha_inicio')!" />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <label class="label-custom">Fecha de terminación *</label>
+                                        <input type="date" class="input-custom" formControlName="fecha_terminacion" />
+                                        <form-error-label [control]="contractForm.get('fecha_terminacion')!" />
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- ── COLUMNA DERECHA: subformulario + tabla ── -->
+                            <div class="col-lg-5">
+                                <div class="row g-4">
+                                    <div class="col-12">
+
+                                        <!-- Subformulario desembolso -->
+                                        <label class="label-custom">Registrar desembolso</label>
+                                        <div [formGroup]="desembolsoForm" class="border rounded p-3 bg-light">
+                                            <div class="row g-2">
+
+                                                <div class="col-6">
+                                                    <label class="label-custom">N° Desembolso *</label>
+                                                    <input type="number" class="input-custom"
+                                                        formControlName="numero_desembolso" min="1"
+                                                        (keypress)="validarSoloNumeros($event)" />
+                                                    <form-error-label
+                                                        [control]="desembolsoForm.get('numero_desembolso')!" />
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <label class="label-custom">Fecha estimada pago *</label>
+                                                    <input type="date" class="input-custom"
+                                                        formControlName="fecha_estimada_pago" />
+                                                    <form-error-label
+                                                        [control]="desembolsoForm.get('fecha_estimada_pago')!" />
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label class="label-custom">Valor *</label>
+                                                    <input type="number" class="input-custom" formControlName="valor"
+                                                        min="0" (keypress)="validarSoloNumeros($event)" />
+                                                    <form-error-label [control]="desembolsoForm.get('valor')!" />
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label class="label-custom">Observaciones</label>
+                                                    <textarea class="input-custom" formControlName="observaciones"
+                                                        rows="2" placeholder="Opcional"></textarea>
+                                                </div>
+
+                                                <!-- Feedback + botón -->
+                                                <div
+                                                    class="col-12 d-flex justify-content-between align-items-center mt-1">
+                                                    @if (desembolsoSaved()) {
+                                                    <span [class]="desembolsoError()
+                                                            ? 'text-danger small'
+                                                            : 'text-success small'">
+                                                        <i [class]="desembolsoError()
+                                                                ? 'bi bi-x-circle-fill me-1'
+                                                                : 'bi bi-check-circle-fill me-1'">
+                                                        </i>
+                                                        {{ desembolsoMessage() }}
+                                                    </span>
+                                                    } @else {
+                                                    <span></span>
+                                                    }
+                                                    <button type="button" class="btn btn-sm btn-primary"
+                                                        (click)="guardarDesembolso()">
+                                                        <i class="bi bi-save2 me-1"></i> Guardar
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Tabla de desembolsos registrados -->
+                                        @if ((paysResource.value() ?? []).length > 0) {
+                                        <div class="table-responsive mt-3">
+                                            <table class="table table-sm table-bordered mb-0">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>N°</th>
+                                                        <th>Fecha est. pago</th>
+                                                        <th>Valor</th>
+                                                        <th>Observaciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (pay of paysResource.value(); track pay.numero_desembolso) {
+                                                    <tr>
+                                                        <td>{{ pay.numero_desembolso }}</td>
+                                                        <td>{{ pay.fecha_estimada_pago | date:'dd/MM/yyyy' }}</td>
+                                                        <td>{{ pay.valor | currency:'COP':'symbol':'1.0-0' }}</td>
+                                                        <td>{{ pay.observaciones || '—' }}</td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        } @else {
+                                        <p class="text-muted small mt-2 text-center">
+                                            <i class="bi bi-inbox me-1"></i> Sin desembolsos registrados
+                                        </p>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ── fin columna derecha ── -->
 
                             <div class="col-12">
                                 <label class="label-custom">Objeto del Contrato *</label>
@@ -149,15 +264,92 @@
                                 <form-error-label [control]="contractForm.get('actividades_funciones')!" />
                             </div>
 
+                            <div class="col-12" formGroupName="metodoAdquisicion">
+                                <label class="label-custom">Metodo metodoAdquisicion</label>
+                                <ng-select [items]="procureMethodSource.value() ?? []" bindLabel="metodo_adquisicion"
+                                    bindValue="ID" formControlName="ID" placeholder="Seleccione metodo adquisicion">
+                                </ng-select>
+                                <form-error-label [control]="contractForm.get('metodoAdquisicion.ID')!" />
+                            </div>
+
+
+                            <div class="col-12" formGroupName="categoriasGasto">
+                                <label class="label-custom">Categoria del gasto</label>
+                                <ng-select [items]="expenseCategoriesResource.value() ?? []" bindLabel="categoria_gasto"
+                                    bindValue="id_categoria_gasto" formControlName="id_categoria_gasto"
+                                    placeholder="Seleccione categoria del gasto">
+                                </ng-select>
+                                <form-error-label [control]="contractForm.get('categoriasGasto.id_categoria_gasto')!" />
+                            </div>
+
+
+
+
+
+                            <div class="col-lg-12">
+                                <label class="label-custom">Valor copntrapartida</label>
+                                <input type="number" class="input-custom" formControlName="valor_contrapartida"
+                                    (keypress)="validarSoloNumeros($event)" />
+                                <form-error-label [control]="contractForm.get('valor_contrapartida')!" />
+                            </div>
+
+                            <div class="col-lg-12">
+                                <label class="label-custom">Gastos logisticos</label>
+                                <input type="number" class="input-custom" formControlName="gastos_logisticos"
+                                    (keypress)="validarSoloNumeros($event)" />
+                                <form-error-label [control]="contractForm.get('gastos_logisticos')!" />
+                            </div>
+
+
+                            <div class="col-lg-12">
+                                <label class="label-custom">Fecha liquidación o terminación anticipada</label>
+                                <input type="date" class="input-custom" formControlName="fecha_liquid_term_ant" />
+                                <form-error-label [control]="contractForm.get('fecha_liquid_term_ant')!" />
+                            </div>
+                            <div class="col-12">
+                                <label class="label-custom">Causa terminacion anticipada</label>
+                                <textarea class="input-custom" formControlName="causa_term_ant" rows="3"
+                                    placeholder="Describa la causa"></textarea>
+                                <form-error-label [control]="contractForm.get('causa_term_ant')!" />
+                            </div>
+
+                            <!----->
+                            <div class="col-lg-12">
+                                <label class="label-custom">Honorarios liberado </label>
+                                <input type="number" class="input-custom" formControlName="recursos_liberados"
+                                    (keypress)="validarSoloNumeros($event)" />
+                                <form-error-label [control]="contractForm.get('recursos_liberados')!" />
+                            </div>
+
+                            <div class="col-lg-12">
+                                <label class="label-custom">Gastos Logisticos liberados </label>
+                                <input type="number" class="input-custom" formControlName="gastos_log_liberados"
+                                    (keypress)="validarSoloNumeros($event)" />
+                                <form-error-label [control]="contractForm.get('gastos_log_liberados')!" />
+                            </div>
+
+                            <!-- hiperv_acta_liqu_term_ant — hipervínculo -->
+                            <div class="col-lg-12">
+                                <label class="label-custom">Hipervínculo acta liquidación término anticipado</label>
+                                <input type="url" class="input-custom" formControlName="hiperv_acta_liqu_term_ant"
+                                    placeholder="https://..." maxlength="255" />
+                            </div>
+
+
+
+
                         </div>
                     </div>
                 </section>
 
-
                 <div class="d-flex justify-content-end align-items-center gap-3 mt-2 mb-5 pe-2">
                     @if(wasSaved()){
-                    <div class="status-saved">
-                        <i class="bi bi-cloud-check-fill me-2"></i> {{ saveMessage() }}
+                    <div [class]="isError() ? 'status-error' : 'status-saved'">
+                        <i [class]="isError()
+                            ? 'bi bi-x-circle-fill me-2'
+                            : 'bi bi-cloud-check-fill me-2'">
+                        </i>
+                        {{ saveMessage() }}
                     </div>
                     }
                     <div class="d-flex gap-2">

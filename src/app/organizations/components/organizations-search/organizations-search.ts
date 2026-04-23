@@ -18,9 +18,6 @@ export class OrganizationsSearch {
       debounceTime(180),
       distinctUntilChanged()
     ).subscribe(value => {
-      // Si el valor es null o undefined (al limpiar con X), enviamos string vacío
-      //console.log(`Quien llego ${value}`);
-
       this.search.emit(value ?? '');
     });
   }

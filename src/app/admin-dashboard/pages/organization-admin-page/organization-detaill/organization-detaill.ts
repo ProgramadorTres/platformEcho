@@ -36,8 +36,7 @@ export class OrganizationDetaill implements OnInit {
   saveMessage = signal('');
 
   organizationId = toSignal(this.activatedRoute.params.pipe(map(params => params['id'])));
-
-  // --- RECURSOS ---
+  
   orgTypesResource = rxResource({ loader: () => this.orgTypes.getAllorgNationals() });
   orgNationalitiesResource = rxResource({ loader: () => this.orgNationalities.getAllorgNationals() });
   orgCountriesResource = rxResource({ loader: () => this.orgCountries.getAllorgCountries() });
@@ -100,7 +99,8 @@ export class OrganizationDetaill implements OnInit {
       : this.organizationService.updateOrganization(this.organization().no_organizacion,body);
 
     action$.subscribe({
-      next: (res: any) => this.handleUIResponse(isNew ? 'Creado con éxito' : 'Actualizado con éxito', res.no_organizacion),
+      next: (res: any) => 
+        this.handleUIResponse(isNew ? 'Creado con éxito' : 'Actualizado con éxito', res.no_organizacion),
       error: (err) => {
         const msg = err.error?.message;
         this.handleUIResponse(Array.isArray(msg) ? msg[0] : (msg || 'Error'), null, true);

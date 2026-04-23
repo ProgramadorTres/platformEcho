@@ -223,3 +223,14 @@ input[type="number"].input-custom {
     -moz-appearance: number-input;
     appearance: auto;
 }
+
+
+.status-error {
+  /* mismos estilos que status-saved pero en rojo */
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+}

@@ -1,5 +1,19 @@
 import { Contrato, Type } from "../interfaces/projects-contracts.interface";
 
+
+
+
+
+export interface Pid {
+  id_PID: number;
+  PID: string;
+  fecha: Date | null;
+  valor_MO: number | null;
+  moneda_original: string | null;
+  valor_COP: number | null;
+  hypervinculo: string | null;
+}
+
 export const emptyContract: Contrato = {
   id_proyecto_contrat: 0,
   numero_contrato: '',
@@ -32,7 +46,17 @@ export const emptyContract: Contrato = {
   ARL: null,
   Riesgo: null,
   fecha_recordatorio: null,
-  
+
+  pid: {
+    id_PID: 0,
+    PID: '',
+    fecha: null,
+    valor_MO: null,
+    moneda_original: null,
+    valor_COP: null,
+    hypervinculo: null
+  },
+
   // Objetos anidados obligatorios
   version_row: {
     type: Type.Buffer,

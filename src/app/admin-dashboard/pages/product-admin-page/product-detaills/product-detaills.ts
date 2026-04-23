@@ -141,7 +141,7 @@ onSubmit() {
       }
       
       // Opcional: Resetear el signal después de unos segundos
-      setTimeout(() => this.wasSaved.set(false), 3000);
+      setTimeout(() => this.wasSaved.set(false), 5000);
     },
     error: (err) => {
       console.error('Error al guardar:', err);

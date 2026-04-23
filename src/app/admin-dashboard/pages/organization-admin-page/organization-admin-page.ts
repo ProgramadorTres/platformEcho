@@ -25,12 +25,8 @@ export class OrganizationAdminPage {
   organizationResource = rxResource(
     {
       request: () => ({ id: this.organizationId() }),
-      //funcion a llamar
       loader: ({ request }) => {
         return this.organizationService.getCrganizationsById(request.id) //  (request.id);
       }
     });
-
-
-
 }

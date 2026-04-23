@@ -13,7 +13,7 @@ export class ProjectService {
 
   private http = inject(HttpClient);
 
-  getAllContratistas(): Observable<ProjectList[]> {
+  getAllCProjectListas(): Observable<ProjectList[]> {
     return this.http.get<ProjectList[]>(`${baseUrl}/proyectos/list`).pipe(
     //  tap(resp => console.log('proyectos/list recibidos:', resp))
     );

@@ -5,6 +5,7 @@ import { ProjectsContractsResponse, Contrato } from '../interfaces/projects-cont
 import { environment } from 'src/environments/environment';
 import { Options } from '@shared/interfaces/paginator-options';
 import { emptyContract } from '../empty/project-contract-empty';
+import { IProyectosContrato } from '../interfaces/project-contract-create.interface';
 
 const baseUrl = environment.baseUrl;
 
@@ -54,8 +55,10 @@ export class ProjectsContractsServiceTs {
         ));
   }
 
+  
+
   //projectContract
-  createProjectContract(proContractLike: Partial<Contrato>): Observable<Contrato> {
+  createProjectContract(proContractLike: Partial<IProyectosContrato>): Observable<Contrato> {  //IProyectosContrato
     console.log("Crear contrato ", proContractLike);
     return this.http.post<Contrato>(`${baseUrl}/proyectos-contratos/`, proContractLike)
       .pipe(
@@ -63,7 +66,7 @@ export class ProjectsContractsServiceTs {
       );
   }
 
-  updateProjectContract( id: number, proContractLike: Partial<Contrato> ) : Observable<Contrato>{
+  updateProjectContract( id: number, proContractLike: Partial<IProyectosContrato> ) : Observable<Contrato>{
      return this.http.patch<Contrato>(`${baseUrl}/proyectos-contratos/${id}`, proContractLike)
           .pipe(
             tap((contratista) => this.updateOrganizationCache(contratista))

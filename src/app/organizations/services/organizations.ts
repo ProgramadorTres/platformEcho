@@ -72,43 +72,9 @@ export class OrganizationService {
 
   private organizationCache = new Map<number, Organization>();
 
-
-
-  //servicio organizaciones
-  //cache   pilas con el cache AQUI
-  /*
-  getOrganizations(options: Options): Observable<OrganizationsResponse> {
-    const { limit = 10, offset = 0, search = '', nationality = '', organizationType = '', country = '' } = options;
-
-    // Incluir nationality en la clave
-    const key = `${limit}-${offset}-${search || 'all'}-${nationality || 'all'}-${organizationType || 'all'}-${country || 'all'}`;
-
-    if (this.organizationsCache.has(key)) {
-      console.log('Usando caché para:', key);
-      return of(this.organizationsCache.get(key)!);
-    }
-
-    const params: any = { limit, offset };
-    if (search) params.search = search;
-    if (nationality) params.nationality = nationality;
-    if (organizationType) params.organizationType = organizationType;
-    if (country) params.country = country;
-
-    console.log('Haciendo petición HTTP con:', { params, key });
-
-    return this.http.get<OrganizationsResponse>(`${baseUrl}/organizaciones/paginator`, { params })
-      .pipe(
-        tap((resp) => {
-          console.log('Guardando en caché:', key);
-          this.organizationsCache.set(key, resp);
-        })
-      );
-  }*/
-
   getOrganizations(options: OrganizationOptions): Observable<OrganizationsResponse> {
     // 1. Llave de caché inteligente basada en el objeto de filtros
     const cacheKey = JSON.stringify(options);
-
     if (this.organizationsCache.has(cacheKey)) {
       return of(this.organizationsCache.get(cacheKey)!);
     }
@@ -121,7 +87,6 @@ export class OrganizationService {
         tap(resp => this.organizationsCache.set(cacheKey, resp))
       );
   }
-
 
   getCrganizationsById(id: number | 'new'): Observable<Organization> {
     if (id === 'new') {
